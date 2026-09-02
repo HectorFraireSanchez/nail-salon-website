@@ -5,8 +5,6 @@ export const serviceCategories = [
     title: "Pedicures",
     eyebrow: "Time to exhale",
     intro: "Five levels of care, from a clean refresh to a complete spa escape. All pedicures finish with your polish of choice.",
-    image: "10.webp",
-    imageAlt: "Fresh sky-blue manicure from Utopian Nails Spa",
     services: [
       { name: "Premium Pedicure", price: "$89", description: "Soak, shaping, cuticle care, exfoliation, nourishing scrub, collagen mask, paraffin wax, heel treatment, and an approximately 25-minute hot stone massage.", notes: ["French +$5", "Gel upgrade +$20"] },
       { name: "Rejuvenation Pedicure", price: "$75", description: "Soak, nail and cuticle care, exfoliation, callus and heel treatment, paraffin dip, hydrating mask, and an approximately 20-minute hot stone massage.", notes: ["French +$5", "Gel upgrade +$20"] },
@@ -21,8 +19,6 @@ export const serviceCategories = [
     title: "Manicures & Builder Gel",
     eyebrow: "Care meets strength",
     intro: "Classic nail care, lasting gel color, and builder options designed to add strength or length.",
-    image: "15.webp",
-    imageAlt: "Glossy lavender almond nails",
     groups: [
       {
         title: "Manicures",
@@ -52,8 +48,6 @@ export const serviceCategories = [
     title: "Dip Powder & Acrylic",
     eyebrow: "Shape, color, length",
     intro: "Flexible dip powder and durable acrylic enhancements, with classic and creative finish options.",
-    image: "4.webp",
-    imageAlt: "Deep burgundy stiletto nails",
     groups: [
       {
         title: "Organic Dipping Powder",
@@ -87,8 +81,6 @@ export const serviceCategories = [
     title: "Nail Art & Add-ons",
     eyebrow: "Make it yours",
     intro: "Finishing touches, polish changes, removals, repairs, and art priced clearly.",
-    image: "5.webp",
-    imageAlt: "Detailed floral nail art with gold accents",
     services: [
       { name: "Gel Polish Change — Toes", price: "$35" },
       { name: "Gel Polish Change — Hands", price: "$30" },
@@ -117,8 +109,6 @@ export const serviceCategories = [
     title: "Waxing",
     eyebrow: "Smooth, simple care",
     intro: "Facial and body waxing options available alongside your nail appointment.",
-    image: "8.webp",
-    imageAlt: "Neutral almond nails with fine black details",
     services: [
       { name: "Back", price: "$55+" },
       { name: "Chest", price: "$45+" },
@@ -141,8 +131,6 @@ export const serviceCategories = [
     title: "Kids Menu",
     eyebrow: "A little moment of fun",
     intro: "Nail services for children ages 10 and under. Children must be supervised at all times.",
-    image: "12.webp",
-    imageAlt: "Playful pastel nail art with tiny flower details",
     services: [
       { name: "Princess Spa Mani & Pedi Combo", price: "$35", description: "Polish, foot soak, nail care, and a light massage." },
       { name: "Pedicure", price: "$20" },
