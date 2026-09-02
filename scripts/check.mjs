@@ -14,10 +14,12 @@ function assert(condition, message) {
   if (!condition) failures.push(message);
 }
 
-const expectedUrls = [business.bookingUrl, business.social.facebook, business.social.instagram, links.text, links.call, links.directions];
+const expectedUrls = [business.social.facebook, business.social.instagram, links.text, links.call, links.directions];
 for (const expected of expectedUrls) {
   assert(pages.some(({ html }) => html.includes(expected.replaceAll("&", "&amp;"))) || pages.some(({ html }) => html.includes(expected)), `Missing expected URL: ${expected}`);
 }
+
+assert(!pages.some(({ html }) => /manage2\.mangoforsalon\.com|book online/i.test(html)), "Inactive online booking option is still present");
 
 for (const { file, html } of pages) {
   assert(html.includes(business.address.street), `${file}: current street address is missing`);

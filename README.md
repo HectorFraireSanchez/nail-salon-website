@@ -1,6 +1,6 @@
 # Utopian Nails Spa Website
 
-A mobile-first redesign and rebuild for [Utopian Nails Spa](https://utopiannails.com/), a real local nail salon in Fort Worth, Texas. The site is designed to help prospective guests quickly see the salon’s work, understand services and prices, and take the next step by text, online booking, phone, or directions.
+A mobile-first redesign and rebuild for [Utopian Nails Spa](https://utopiannails.com/), a real local nail salon in Fort Worth, Texas. The site is designed to help prospective guests quickly see the salon’s work, understand services and prices, and take the next step by text, phone, or directions.
 
 ## Goals
 
@@ -22,7 +22,7 @@ The project uses semantic HTML, modern CSS, and a small amount of vanilla JavaSc
 
 Core business information, services, prices, gallery metadata, and testimonials live in structured data modules under `src/data`. Shared templates generate consistent navigation, footer, booking actions, metadata, and structured data.
 
-There is no application backend. Online reservations link to the salon’s existing Mango booking system.
+There is no application backend. Guests reserve appointments by texting or calling the salon.
 
 ## Performance, accessibility, and SEO
 
@@ -34,7 +34,7 @@ There is no application backend. Online reservations link to the salon’s exist
 - Semantic landmarks, skip link, visible focus styles, keyboard-accessible navigation, and an accessible native-dialog lightbox
 - Reduced-motion support
 - Unique titles and descriptions, canonical URLs, Open Graph metadata, sitemap, robots file, and `NailSalon` structured data
-- Consistent current Fort Worth name, address, phone, hours, booking, and social details
+- Consistent current Fort Worth name, address, phone, hours, and social details
 
 ## Run locally
 

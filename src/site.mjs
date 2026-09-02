@@ -5,7 +5,6 @@ import { galleryImages, homeGalleryFiles, reviews } from "./data/gallery.mjs";
 const icon = (name) => {
   const paths = {
     arrow: '<path d="M5 12h14M13 6l6 6-6 6"/>',
-    calendar: '<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/>',
     phone: '<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.9.33 1.78.62 2.63a2 2 0 0 1-.45 2.11L8 9.74a16 16 0 0 0 6 6l1.28-1.28a2 2 0 0 1 2.11-.45c.85.29 1.73.5 2.63.62A2 2 0 0 1 22 16.92z"/>',
     message: '<path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"/>',
     map: '<path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0z"/><circle cx="12" cy="10" r="2.5"/>',
@@ -26,7 +25,7 @@ const pageMeta = {
   home: {
     path: "/",
     title: "Utopian Nails Spa | Nail Salon in Fort Worth, TX",
-    description: "Discover manicures, pedicures, builder gel, dip powder, acrylic nails, nail art, and waxing at Utopian Nails Spa in Fort Worth. Text or book online.",
+    description: "Discover manicures, pedicures, builder gel, dip powder, acrylic nails, nail art, and waxing at Utopian Nails Spa in Fort Worth. Text or call to book.",
   },
   services: {
     path: "/services/",
@@ -41,7 +40,7 @@ const pageMeta = {
   visit: {
     path: "/visit/",
     title: "Visit Utopian Nails Spa | Hours & Directions in Fort Worth",
-    description: "Find Utopian Nails Spa at 6201 Sunset Dr 650, Suite 104 in Fort Worth. View hours, get directions, call, text, or book your appointment online.",
+    description: "Find Utopian Nails Spa at 6201 Sunset Dr 650, Suite 104 in Fort Worth. View hours, get directions, or call or text to book your appointment.",
   },
 };
 
@@ -100,7 +99,7 @@ function header(active) {
           <div class="nav-links">
             ${nav.map(([key, href, label]) => `<a href="${href}"${active === key ? ' aria-current="page"' : ""}>${label}</a>`).join("")}
           </div>
-          <a class="button button-small button-light" href="${business.bookingUrl}" ${externalAttrs}>Book online ${icon("arrow")}</a>
+          <a class="button button-small button-light" href="${links.text}">${icon("message")} Text to book</a>
         </nav>
       </div>
     </header>`;
@@ -109,7 +108,7 @@ function header(active) {
 function mobileActions() {
   return `<aside class="mobile-actions" aria-label="Quick booking actions">
     <a href="${links.text}">${icon("message")}<span>Text to book</span></a>
-    <a href="${business.bookingUrl}" ${externalAttrs}>${icon("calendar")}<span>Book online</span></a>
+    <a href="${links.call}">${icon("phone")}<span>Call to book</span></a>
   </aside>`;
 }
 
@@ -134,7 +133,7 @@ function footer() {
           <a href="/services/">Services & prices</a>
           <a href="/gallery/">Our work</a>
           <a href="/visit/">Hours & location</a>
-          <a href="${business.bookingUrl}" ${externalAttrs}>Book online</a>
+          <a href="${links.text}">Text to book</a>
         </nav>
       </div>
       <div>
@@ -156,7 +155,7 @@ function ctaBanner({ eyebrow = "Your next set starts here", title = "Ready for a
       <div><p class="eyebrow">${eyebrow}</p><h2 id="cta-title">${title}</h2><p>${text}</p></div>
       <div class="button-row">
         <a class="button button-light" href="${links.text}">${icon("message")} Text to book</a>
-        <a class="button button-outline-light" href="${business.bookingUrl}" ${externalAttrs}>Book online ${icon("arrow")}</a>
+        <a class="button button-outline-light" href="${links.call}">${icon("phone")} Call to book</a>
       </div>
     </div>
   </section>`;
@@ -225,7 +224,7 @@ export function homePage() {
           <p class="hero-lede">From polished classics to bold nail art, come settle in for thoughtful care and a look that feels like you.</p>
           <div class="button-row hero-actions">
             <a class="button button-primary" href="${links.text}">${icon("message")} Text to book</a>
-            <a class="button button-secondary" href="${business.bookingUrl}" ${externalAttrs}>Book online ${icon("arrow")}</a>
+            <a class="button button-secondary" href="${links.call}">${icon("phone")} Call to book</a>
           </div>
           <a class="hero-location" href="${links.directions}" ${externalAttrs}>${icon("map")}<span>${business.address.street}<br />Fort Worth, TX</span></a>
         </div>
@@ -270,7 +269,7 @@ export function homePage() {
           <div class="benefit-list">
             <div><span>01</span><h3>Options for every mood</h3><p>Soft neutrals, bold color, added length, intricate art, or a clean classic.</p></div>
             <div><span>02</span><h3>Relaxation built in</h3><p>Choose from pedicures with exfoliation, masks, paraffin, and hot stone massage.</p></div>
-            <div><span>03</span><h3>Booking made simple</h3><p>Text, call, or reserve online—whichever is most convenient.</p></div>
+            <div><span>03</span><h3>Booking made simple</h3><p>Text or call the salon to reserve your appointment.</p></div>
           </div>
         </div>
       </div>
@@ -330,7 +329,7 @@ export function servicesPage() {
     <nav class="category-nav" aria-label="Service categories"><div class="shell category-nav-scroll">${serviceCategories.map((category) => `<a href="#${category.id}">${category.navLabel}</a>`).join("")}</div></nav>
     <div class="shell service-menu">${serviceCategories.map(serviceCategory).join("")}</div>
     <section class="section policy-section" id="policies" aria-labelledby="policy-title"><div class="shell policy-grid"><div><p class="eyebrow">Before your visit</p><h2 id="policy-title">Salon policies</h2><p>These guidelines help the team keep appointments comfortable, fair, and on time.</p></div><ol>${policies.map((policy) => `<li>${policy}</li>`).join("")}</ol></div></section>
-    ${ctaBanner({ eyebrow: "Found your service?", title: "Let’s get it on the calendar.", text: "Text the salon if you have a question about pricing or design, or reserve your time online." })}`;
+    ${ctaBanner({ eyebrow: "Found your service?", title: "Let’s get it on the calendar.", text: "Text or call the salon to ask about pricing, discuss a design, and reserve your time." })}`;
   return layout("services", body, { bodyClass: "services-page" });
 }
 
@@ -342,19 +341,19 @@ export function galleryPage() {
     <section class="page-hero gallery-page-hero"><div class="shell gallery-hero-inner"><div><p class="eyebrow">Our work</p><h1>Details worth a <em>closer look.</em></h1></div><p>From understated French tips to bright color and dimensional art, browse real sets from the Utopian Nails Spa gallery.</p></div></section>
     <section class="gallery-section section" aria-label="Nail art gallery"><div class="shell gallery-grid">${gallery}</div></section>
     <dialog class="lightbox" data-lightbox aria-label="Enlarged gallery image"><button type="button" class="lightbox-close" data-lightbox-close aria-label="Close enlarged image">${icon("close")}</button><button type="button" class="lightbox-nav lightbox-prev" data-lightbox-prev aria-label="Previous image">‹</button><figure><img src="" alt="" data-lightbox-image /><figcaption data-lightbox-caption></figcaption></figure><button type="button" class="lightbox-nav lightbox-next" data-lightbox-next aria-label="Next image">›</button></dialog>
-    ${ctaBanner({ eyebrow: "Have a reference photo?", title: "Bring the idea. We’ll talk through the details.", text: "Text the salon to ask about a look, or reserve your appointment online." })}`;
+    ${ctaBanner({ eyebrow: "Have a reference photo?", title: "Bring the idea. We’ll talk through the details.", text: "Text the salon to share a look, or call to reserve your appointment." })}`;
   return layout("gallery", body, { bodyClass: "gallery-page" });
 }
 
 export function visitPage() {
   const body = `
-    <section class="page-hero visit-page-hero"><div class="shell page-hero-grid"><div><p class="eyebrow">Visit Utopian Nails Spa</p><h1>Come in, settle down, <em>leave polished.</em></h1><p>Find us in Fort Worth. Text or call for booking help, reserve online, or tap the address for turn-by-turn directions.</p><div class="button-row"><a class="button button-primary" href="${links.directions}" ${externalAttrs}>${icon("map")} Get directions</a><a class="button button-secondary" href="${links.text}">${icon("message")} Text us</a></div></div><div class="page-hero-image"><img src="/assets/gallery/16.webp" width="287" height="510" alt="Vibrant pink manicure with playful wavy art" fetchpriority="high" /></div></div></section>
+    <section class="page-hero visit-page-hero"><div class="shell page-hero-grid"><div><p class="eyebrow">Visit Utopian Nails Spa</p><h1>Come in, settle down, <em>leave polished.</em></h1><p>Find us in Fort Worth. Text or call to book, or tap the address for turn-by-turn directions.</p><div class="button-row"><a class="button button-primary" href="${links.directions}" ${externalAttrs}>${icon("map")} Get directions</a><a class="button button-secondary" href="${links.text}">${icon("message")} Text us</a></div></div><div class="page-hero-image"><img src="/assets/gallery/16.webp" width="287" height="510" alt="Vibrant pink manicure with playful wavy art" fetchpriority="high" /></div></div></section>
     <section class="section contact-section" aria-labelledby="contact-title"><div class="shell contact-grid">
       <div class="contact-card contact-card-location"><p class="eyebrow">Location</p><h2 id="contact-title">Fort Worth, Texas</h2><address>${business.address.street}<br />${business.address.city}, ${business.address.state} ${business.address.postalCode}</address><a class="text-link" href="${links.directions}" ${externalAttrs}>Open in Google Maps ${icon("arrow")}</a></div>
       <div class="contact-card"><p class="eyebrow">Hours</p>${hoursList()}</div>
       <div class="contact-card"><p class="eyebrow">Get in touch</p><div class="contact-links"><a href="${links.text}">${icon("message")}<span><small>Text to book</small>${business.phone.display}</span></a><a href="${links.call}">${icon("phone")}<span><small>Call the salon</small>${business.phone.display}</span></a><a href="${links.email}">${icon("mail")}<span><small>Email</small>${business.email}</span></a></div></div>
     </div></section>
-    <section class="section booking-choice" aria-labelledby="booking-choice-title"><div class="shell"><div class="section-heading centered-heading"><p class="eyebrow">Book your way</p><h2 id="booking-choice-title">Three easy ways to reserve.</h2></div><div class="booking-choice-grid"><a href="${links.text}">${icon("message")}<span><strong>Text to book</strong><small>Start a conversation with the salon</small></span>${icon("arrow")}</a><a href="${business.bookingUrl}" ${externalAttrs}>${icon("calendar")}<span><strong>Book online</strong><small>Choose through Mango booking</small></span>${icon("arrow")}</a><a href="${links.call}">${icon("phone")}<span><strong>Call</strong><small>Speak directly with the salon</small></span>${icon("arrow")}</a></div></div></section>
+    <section class="section booking-choice" aria-labelledby="booking-choice-title"><div class="shell"><div class="section-heading centered-heading"><p class="eyebrow">Book your way</p><h2 id="booking-choice-title">Two easy ways to reserve.</h2></div><div class="booking-choice-grid"><a href="${links.text}">${icon("message")}<span><strong>Text to book</strong><small>Start a conversation with the salon</small></span>${icon("arrow")}</a><a href="${links.call}">${icon("phone")}<span><strong>Call to book</strong><small>Speak directly with the salon</small></span>${icon("arrow")}</a></div></div></section>
     <section class="section social-section"><div class="shell social-card"><div><p class="eyebrow">Stay inspired</p><h2>Follow along for more nail ideas.</h2></div><div class="button-row"><a class="button button-secondary" href="${business.social.instagram}" ${externalAttrs}>${icon("instagram")} Instagram</a><a class="button button-secondary" href="${business.social.facebook}" ${externalAttrs}>${icon("facebook")} Facebook</a></div></div></section>`;
   return layout("visit", body, { bodyClass: "visit-page" });
 }

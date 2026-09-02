@@ -15,7 +15,6 @@ export const business = {
     uri: "+16825594401",
   },
   email: "Utopiannailsxspa@gmail.com",
-  bookingUrl: "https://manage2.mangoforsalon.com//booking?id=uVANi0g7fotlRp%2BN5%2B4CgA==",
   social: {
     facebook: "https://www.facebook.com/utopiannailsspa",
     instagram: "https://www.instagram.com/utopian_nailsspa",

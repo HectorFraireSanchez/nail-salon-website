@@ -277,7 +277,7 @@ em { color: var(--rose); font-weight: 400; }
 .contact-links a > span { min-width: 0; overflow-wrap: anywhere; }
 .contact-links small { display: block; margin-bottom: 3px; color: var(--ink-soft); font-size: .68rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
 .booking-choice { background: var(--paper); }
-.booking-choice-grid { display: grid; border-top: 1px solid var(--line); border-left: 1px solid var(--line); grid-template-columns: repeat(3, 1fr); }
+.booking-choice-grid { display: grid; border-top: 1px solid var(--line); border-left: 1px solid var(--line); grid-template-columns: repeat(2, 1fr); }
 .booking-choice-grid > a { display: grid; min-height: 160px; padding: 30px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); grid-template-columns: auto 1fr auto; align-items: center; gap: 18px; text-decoration: none; }
 .booking-choice-grid > a:hover { background: var(--blush-light); }
 .booking-choice-grid .icon:first-child { width: 28px; height: 28px; color: var(--rose-dark); }
