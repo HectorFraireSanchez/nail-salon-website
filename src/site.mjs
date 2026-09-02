@@ -30,6 +30,12 @@ function todayHoursStatus({ className = "hero-hours", linkToHours = false } = {}
   </${tag}>`;
 }
 
+function instagramLink(label, { light = false } = {}) {
+  return `<a class="instagram-link${light ? " instagram-link-light" : ""}" href="${business.social.instagram}" ${externalAttrs} aria-label="${label} (opens in a new tab)">
+    ${icon("instagram")}<span>${label}</span>
+  </a>`;
+}
+
 const pageMeta = {
   home: {
     path: "/",
@@ -247,7 +253,7 @@ export function homePage() {
       <div class="shell">
         <div class="section-heading split-heading">
           <div><p class="eyebrow">Fresh from the salon</p><h2 id="work-title">Find your next look.</h2></div>
-          <div><p>Color, shape, texture, or something completely your own—bring the inspiration and we’ll make it wearable.</p><a class="text-link" href="/gallery/">Explore the gallery ${icon("arrow")}</a></div>
+          <div><p>Color, shape, texture, or something completely your own—bring the inspiration and we’ll make it wearable.</p><div class="gallery-actions"><a class="text-link" href="/gallery/">Explore the gallery ${icon("arrow")}</a>${instagramLink("See more on Instagram")}</div></div>
         </div>
         <div class="home-gallery">${galleryMarkup}</div>
       </div>
@@ -321,7 +327,7 @@ export function galleryPage() {
     <img src="/assets/gallery/${image.file}" width="${image.width}" height="${image.height}" alt="${image.alt}" loading="${index < 4 ? "eager" : "lazy"}" ${index < 2 ? 'fetchpriority="high"' : ""} />
   </button>`).join("");
   const body = `
-    <section class="page-hero gallery-page-hero"><div class="shell gallery-hero-inner"><div><p class="eyebrow">Our work</p><h1>Details worth a <em>closer look.</em></h1></div><p>From understated French tips to bright color and dimensional art, browse real sets from the Utopian Nails Spa gallery.</p></div></section>
+    <section class="page-hero gallery-page-hero"><div class="shell gallery-hero-inner"><div><p class="eyebrow">Our work</p><h1>Details worth a <em>closer look.</em></h1></div><div class="gallery-hero-copy"><p>From understated French tips to bright color and dimensional art, browse real sets from the Utopian Nails Spa gallery.</p>${instagramLink("See more of our work on Instagram", { light: true })}</div></div></section>
     <section class="gallery-section section" aria-label="Nail art gallery"><div class="shell gallery-grid">${gallery}</div></section>
     <dialog class="lightbox" data-lightbox aria-label="Enlarged gallery image"><button type="button" class="lightbox-close" data-lightbox-close aria-label="Close enlarged image">${icon("close")}</button><button type="button" class="lightbox-nav lightbox-prev" data-lightbox-prev aria-label="Previous image">‹</button><figure><img src="" alt="" data-lightbox-image /><figcaption data-lightbox-caption></figcaption></figure><button type="button" class="lightbox-nav lightbox-next" data-lightbox-next aria-label="Next image">›</button></dialog>
     ${ctaBanner({ eyebrow: "Have a reference photo?", title: "Bring the idea. We’ll talk through the details.", text: "Text the salon to share a look, or call to reserve your appointment." })}`;
