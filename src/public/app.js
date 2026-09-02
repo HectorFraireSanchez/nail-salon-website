@@ -26,6 +26,26 @@ document.querySelectorAll("[data-year]").forEach((element) => {
   element.textContent = String(new Date().getFullYear());
 });
 
+const todayHours = document.querySelector("[data-today-hours]");
+if (todayHours) {
+  try {
+    const salonDay = new Intl.DateTimeFormat("en-US", {
+      weekday: "long",
+      timeZone: todayHours.dataset.timeZone,
+    }).format(new Date());
+    const schedule = JSON.parse(decodeURIComponent(todayHours.dataset.hours));
+    const hours = schedule.find((entry) => entry.day === salonDay);
+    const label = todayHours.querySelector("[data-today-hours-label]");
+
+    if (hours && label) {
+      label.textContent = hours.closed ? "Closed today" : `Open today · ${hours.display}`;
+      todayHours.classList.toggle("is-closed", hours.closed);
+    }
+  } catch {
+    // Keep the useful link to the full hours list if local date formatting is unavailable.
+  }
+}
+
 const lightbox = document.querySelector("[data-lightbox]");
 if (lightbox instanceof HTMLDialogElement) {
   const triggers = [...document.querySelectorAll("[data-lightbox-trigger]")];

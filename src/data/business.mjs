@@ -15,6 +15,7 @@ export const business = {
     uri: "+16825594401",
   },
   email: "Utopiannailsxspa@gmail.com",
+  timeZone: "America/Chicago",
   social: {
     facebook: "https://www.facebook.com/utopiannailsspa",
     instagram: "https://www.instagram.com/utopian_nailsspa",

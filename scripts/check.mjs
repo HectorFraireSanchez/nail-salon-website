@@ -47,6 +47,13 @@ for (const { file, html } of pages) {
 }
 
 const servicesHtml = pages.find(({ file }) => file === "services/index.html").html;
+const homeHtml = pages.find(({ file }) => file === "index.html").html;
+assert(homeHtml.includes("data-today-hours"), "Homepage is missing the current-day hours prompt");
+assert(homeHtml.includes(`data-time-zone="${business.timeZone}"`), "Homepage hours prompt is missing the salon timezone");
+for (const entry of business.hours) {
+  assert(decodeURIComponent(homeHtml).includes(`\"day\":\"${entry.day}\",\"display\":\"${entry.display}\"`), `Homepage hours prompt is missing ${entry.day}`);
+}
+
 for (const category of serviceCategories) {
   const groups = category.groups ?? [{ services: category.services }];
   for (const service of groups.flatMap((group) => group.services)) {

@@ -20,6 +20,7 @@ const icon = (name) => {
 
 const externalAttrs = 'target="_blank" rel="noopener noreferrer"';
 const homeGallery = homeGalleryFiles.map((file) => galleryImages.find((image) => image.file === file));
+const encodedHours = encodeURIComponent(JSON.stringify(business.hours.map(({ day, display, closed }) => ({ day, display, closed: Boolean(closed) }))));
 
 const pageMeta = {
   home: {
@@ -222,6 +223,9 @@ export function homePage() {
           <p class="eyebrow">Nail salon · Fort Worth, Texas</p>
           <h1>A little escape.<br /><em>A beautiful finish.</em></h1>
           <p class="hero-lede">From polished classics to bold nail art, come settle in for thoughtful care and a look that feels like you.</p>
+          <a class="hero-hours" href="/visit/" data-today-hours data-hours="${encodedHours}" data-time-zone="${business.timeZone}">
+            ${icon("clock")}<span data-today-hours-label>View today’s salon hours</span>
+          </a>
           <div class="button-row hero-actions">
             <a class="button button-primary" href="${links.text}">${icon("message")} Text to book</a>
             <a class="button button-secondary" href="${links.call}">${icon("phone")} Call to book</a>
