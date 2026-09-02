@@ -1,0 +1,39 @@
+export const business = {
+  name: "Utopian Nails Spa",
+  legalDisplayName: "Utopian Nails Spa",
+  siteUrl: "https://utopiannails.com",
+  address: {
+    street: "6201 Sunset Dr 650, Suite 104",
+    city: "Fort Worth",
+    state: "TX",
+    postalCode: "76116",
+    country: "US",
+    formatted: "6201 Sunset Dr 650, Suite 104, Fort Worth, TX 76116",
+  },
+  phone: {
+    display: "+1 (682) 559-4401",
+    uri: "+16825594401",
+  },
+  email: "Utopiannailsxspa@gmail.com",
+  bookingUrl: "https://manage2.mangoforsalon.com//booking?id=uVANi0g7fotlRp%2BN5%2B4CgA==",
+  social: {
+    facebook: "https://www.facebook.com/utopiannailsspa",
+    instagram: "https://www.instagram.com/utopian_nailsspa",
+  },
+  hours: [
+    { day: "Monday", short: "Mon", display: "Closed", closed: true },
+    { day: "Tuesday", short: "Tue", display: "10 AM – 7 PM", opens: "10:00", closes: "19:00" },
+    { day: "Wednesday", short: "Wed", display: "10 AM – 7 PM", opens: "10:00", closes: "19:00" },
+    { day: "Thursday", short: "Thu", display: "10 AM – 7 PM", opens: "10:00", closes: "19:00" },
+    { day: "Friday", short: "Fri", display: "10 AM – 7 PM", opens: "10:00", closes: "19:00" },
+    { day: "Saturday", short: "Sat", display: "9:30 AM – 6 PM", opens: "09:30", closes: "18:00" },
+    { day: "Sunday", short: "Sun", display: "11 AM – 5 PM", opens: "11:00", closes: "17:00" },
+  ],
+};
+
+export const links = {
+  text: `sms:${business.phone.uri}?body=${encodeURIComponent("Hi! I'd like to book a nail appointment.")}`,
+  call: `tel:${business.phone.uri}`,
+  email: `mailto:${business.email}`,
+  directions: `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(business.address.formatted)}`,
+};
