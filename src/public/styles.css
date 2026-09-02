@@ -136,22 +136,6 @@ em { color: var(--rose); font-weight: 400; }
 .popular-card > p:last-child { margin-top: 18px; color: var(--ink-soft); font-size: .88rem; }
 .centered-action { margin-top: 38px; text-align: center; }
 
-/* Experience */
-.experience-section { color: var(--paper); background: var(--ink); }
-.experience-grid { display: grid; grid-template-columns: minmax(360px, .85fr) minmax(350px, .75fr); align-items: center; gap: 10vw; }
-.experience-images { position: relative; height: 650px; }
-.experience-large { width: 78%; height: 88%; object-fit: cover; }
-.experience-small { position: absolute; right: 0; bottom: 0; width: 45%; height: 48%; border: 9px solid var(--ink); object-fit: cover; }
-.experience-copy .eyebrow { color: #d7aaa7; }
-.experience-copy h2 { color: #fff; }
-.large-copy { color: rgba(255,255,255,.72); font-family: var(--serif); font-size: 1.32rem; line-height: 1.5; }
-.benefit-list { margin-top: 42px; }
-.benefit-list > div { display: grid; padding: 22px 0; border-top: 1px solid rgba(255,255,255,.16); grid-template-columns: 42px 1fr; column-gap: 16px; }
-.benefit-list > div:last-child { border-bottom: 1px solid rgba(255,255,255,.16); }
-.benefit-list span { color: #d7aaa7; font-size: .68rem; }
-.benefit-list h3 { margin: 0 0 7px; font-family: var(--serif); font-size: 1.15rem; font-weight: 400; }
-.benefit-list p { margin: 0; color: rgba(255,255,255,.62); font-size: .84rem; grid-column: 2; }
-
 /* Reviews */
 .reviews-section { background: var(--blush-light); }
 .review-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
@@ -304,7 +288,6 @@ em { color: var(--rose); font-weight: 400; }
   .hero-copy h1 { font-size: clamp(3.8rem, 8.5vw, 6.5rem); }
   .hero-image-main { width: 82%; }
   .popular-grid { grid-template-columns: repeat(2, 1fr); }
-  .experience-grid { grid-template-columns: minmax(300px, .85fr) minmax(280px, .75fr); gap: 4vw; }
   .review-card { padding: 26px; }
   .cta-inner { grid-template-columns: 1fr; align-items: start; gap: 32px; }
   .footer-grid { gap: 5vw; }
@@ -359,9 +342,6 @@ em { color: var(--rose); font-weight: 400; }
   .popular-grid { grid-template-columns: 1fr; }
   .popular-card { min-height: 230px; }
   .popular-category { margin-bottom: 30px; }
-  .experience-grid { display: flex; flex-direction: column-reverse; align-items: stretch; gap: 70px; }
-  .experience-images { height: 520px; }
-  .experience-copy { max-width: 600px; }
   .review-grid { display: flex; width: 100%; overflow-x: auto; gap: 12px; scroll-snap-type: x mandatory; scrollbar-width: none; }
   .review-grid::-webkit-scrollbar { display: none; }
   .review-card { min-width: min(83vw, 360px); scroll-snap-align: start; }
@@ -448,7 +428,6 @@ em { color: var(--rose); font-weight: 400; }
   .hero-visual { height: 430px; }
   .hero-note { width: 64%; font-size: .83rem; }
   .home-gallery { grid-template-rows: repeat(3, 180px); }
-  .experience-images { height: 440px; }
   .visit-photo { height: 330px; }
   .footer-grid { grid-template-columns: 1fr; }
   .footer-brand { grid-column: auto; }

@@ -49,6 +49,7 @@ for (const { file, html } of pages) {
 const servicesHtml = pages.find(({ file }) => file === "services/index.html").html;
 const homeHtml = pages.find(({ file }) => file === "index.html").html;
 const visitHtml = pages.find(({ file }) => file === "visit/index.html").html;
+assert(!/The Utopian feeling|Care in every detail|experience-section/.test(homeHtml), "Homepage still contains the removed experience section");
 assert(homeHtml.includes("data-today-hours"), "Homepage is missing the current-day hours prompt");
 assert(homeHtml.includes(`data-time-zone="${business.timeZone}"`), "Homepage hours prompt is missing the salon timezone");
 assert(visitHtml.includes("visit-mobile-essentials"), "Visit page is missing the mobile essentials block");

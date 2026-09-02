@@ -266,25 +266,6 @@ export function homePage() {
       </div>
     </section>
 
-    <section class="section experience-section" aria-labelledby="experience-title">
-      <div class="shell experience-grid">
-        <div class="experience-images">
-          <img class="experience-large" src="/assets/gallery/4.webp" width="382" height="510" alt="Glossy burgundy stiletto nails with diagonal accents" loading="lazy" />
-          <img class="experience-small" src="/assets/gallery/10.webp" width="457" height="510" alt="Natural short manicure with pink French tips" loading="lazy" />
-        </div>
-        <div class="experience-copy">
-          <p class="eyebrow">The Utopian feeling</p>
-          <h2 id="experience-title">Care in every detail.</h2>
-          <p class="large-copy">A salon visit should feel easy from the moment you choose your service to the final coat.</p>
-          <div class="benefit-list">
-            <div><span>01</span><h3>Options for every mood</h3><p>Soft neutrals, bold color, added length, intricate art, or a clean classic.</p></div>
-            <div><span>02</span><h3>Relaxation built in</h3><p>Choose from pedicures with exfoliation, masks, paraffin, and hot stone massage.</p></div>
-            <div><span>03</span><h3>Booking made simple</h3><p>Text or call the salon to reserve your appointment.</p></div>
-          </div>
-        </div>
-      </div>
-    </section>
-
     <section class="section reviews-section" aria-labelledby="reviews-title">
       <div class="shell">
         <div class="section-heading split-heading"><div><p class="eyebrow">Kind words</p><h2 id="reviews-title">What guests remember.</h2></div><p>Real comments shared by Utopian Nails Spa customers.</p></div>
