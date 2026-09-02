@@ -58,6 +58,7 @@ for (const entry of business.hours) {
 }
 
 for (const category of serviceCategories) {
+  assert(servicesHtml.includes(`href="#${category.id}"`), `Services navigation is missing a link to ${category.title}`);
   const groups = category.groups ?? [{ services: category.services }];
   for (const service of groups.flatMap((group) => group.services)) {
     assert(servicesHtml.includes(service.name), `Services page is missing: ${service.name}`);
