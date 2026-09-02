@@ -22,6 +22,14 @@ const externalAttrs = 'target="_blank" rel="noopener noreferrer"';
 const homeGallery = homeGalleryFiles.map((file) => galleryImages.find((image) => image.file === file));
 const encodedHours = encodeURIComponent(JSON.stringify(business.hours.map(({ day, display, closed }) => ({ day, display, closed: Boolean(closed) }))));
 
+function todayHoursStatus({ className = "hero-hours", linkToHours = false } = {}) {
+  const tag = linkToHours ? "a" : "p";
+  const href = linkToHours ? ' href="/visit/"' : "";
+  return `<${tag} class="${className}"${href} data-today-hours data-hours="${encodedHours}" data-time-zone="${business.timeZone}">
+    ${icon("clock")}<span data-today-hours-label>View today’s salon hours</span>
+  </${tag}>`;
+}
+
 const pageMeta = {
   home: {
     path: "/",
@@ -223,9 +231,7 @@ export function homePage() {
           <p class="eyebrow">Nail salon · Fort Worth, Texas</p>
           <h1>A little escape.<br /><em>A beautiful finish.</em></h1>
           <p class="hero-lede">From polished classics to bold nail art, come settle in for thoughtful care and a look that feels like you.</p>
-          <a class="hero-hours" href="/visit/" data-today-hours data-hours="${encodedHours}" data-time-zone="${business.timeZone}">
-            ${icon("clock")}<span data-today-hours-label>View today’s salon hours</span>
-          </a>
+          ${todayHoursStatus({ linkToHours: true })}
           <div class="button-row hero-actions">
             <a class="button button-primary" href="${links.text}">${icon("message")} Text to book</a>
             <a class="button button-secondary" href="${links.call}">${icon("phone")} Call to book</a>
@@ -327,7 +333,7 @@ export function servicesPage() {
     <section class="page-hero service-page-hero">
       <div class="shell page-hero-grid">
         <div><p class="eyebrow">Services & prices</p><h1>Choose your kind of <em>care.</em></h1><p>Browse the complete menu—from quick polish changes to spa pedicures and custom enhancements. Prices marked “+” may vary by length or design.</p></div>
-        <div class="page-hero-image"><img src="/assets/gallery/6.webp" width="293" height="510" alt="Long sculpted nail set in navy, peach, and chrome" fetchpriority="high" /></div>
+        <div class="page-hero-image"><img src="/assets/gallery/6.webp" width="293" height="510" alt="Long sculpted nail set in navy, peach, and chrome" loading="lazy" /></div>
       </div>
     </section>
     <nav class="category-nav" aria-label="Service categories"><div class="shell category-nav-scroll">${serviceCategories.map((category) => `<a href="#${category.id}">${category.navLabel}</a>`).join("")}</div></nav>
@@ -351,12 +357,13 @@ export function galleryPage() {
 
 export function visitPage() {
   const body = `
-    <section class="page-hero visit-page-hero"><div class="shell page-hero-grid"><div><p class="eyebrow">Visit Utopian Nails Spa</p><h1>Come in, settle down, <em>leave polished.</em></h1><p>Find us in Fort Worth. Text or call to book, or tap the address for turn-by-turn directions.</p><div class="button-row"><a class="button button-primary" href="${links.directions}" ${externalAttrs}>${icon("map")} Get directions</a><a class="button button-secondary" href="${links.text}">${icon("message")} Text us</a></div></div><div class="page-hero-image"><img src="/assets/gallery/16.webp" width="287" height="510" alt="Vibrant pink manicure with playful wavy art" fetchpriority="high" /></div></div></section>
-    <section class="section contact-section" aria-labelledby="contact-title"><div class="shell contact-grid">
+    <section class="page-hero visit-page-hero"><div class="shell page-hero-grid"><div class="visit-hero-copy"><p class="eyebrow">Visit Utopian Nails Spa</p><h1>Come in, settle down, <em>leave polished.</em></h1><p class="visit-intro">Find us in Fort Worth. Text or call to book, or tap the address for turn-by-turn directions.</p><div class="visit-mobile-essentials"><a class="visit-mobile-address" href="${links.directions}" ${externalAttrs}>${icon("map")}<span>${business.address.street}<br />${business.address.city}, ${business.address.state} ${business.address.postalCode}</span></a>${todayHoursStatus({ className: "visit-today-hours" })}<a class="button button-light" href="${links.directions}" ${externalAttrs}>Get directions ${icon("arrow")}</a></div><div class="button-row visit-desktop-actions"><a class="button button-primary" href="${links.directions}" ${externalAttrs}>${icon("map")} Get directions</a><a class="button button-secondary" href="${links.text}">${icon("message")} Text us</a></div></div><div class="page-hero-image"><img src="/assets/gallery/16.webp" width="287" height="510" alt="Vibrant pink manicure with playful wavy art" loading="lazy" /></div></div></section>
+    <section class="section contact-section" aria-label="Visit details"><div class="shell contact-grid">
       <div class="contact-card contact-card-location"><p class="eyebrow">Location</p><h2 id="contact-title">Fort Worth, Texas</h2><address>${business.address.street}<br />${business.address.city}, ${business.address.state} ${business.address.postalCode}</address><a class="text-link" href="${links.directions}" ${externalAttrs}>Open in Google Maps ${icon("arrow")}</a></div>
-      <div class="contact-card"><p class="eyebrow">Hours</p>${hoursList()}</div>
+      <div class="contact-card contact-card-hours"><p class="eyebrow">Weekly hours</p>${hoursList()}</div>
       <div class="contact-card"><p class="eyebrow">Get in touch</p><div class="contact-links"><a href="${links.text}">${icon("message")}<span><small>Text to book</small>${business.phone.display}</span></a><a href="${links.call}">${icon("phone")}<span><small>Call the salon</small>${business.phone.display}</span></a><a href="${links.email}">${icon("mail")}<span><small>Email</small>${business.email}</span></a></div></div>
     </div></section>
+    <div class="visit-mobile-image" aria-hidden="true"><img src="/assets/gallery/16.webp" width="287" height="510" alt="" loading="lazy" /></div>
     <section class="section booking-choice" aria-labelledby="booking-choice-title"><div class="shell"><div class="section-heading centered-heading"><p class="eyebrow">Book your way</p><h2 id="booking-choice-title">Two easy ways to reserve.</h2></div><div class="booking-choice-grid"><a href="${links.text}">${icon("message")}<span><strong>Text to book</strong><small>Start a conversation with the salon</small></span>${icon("arrow")}</a><a href="${links.call}">${icon("phone")}<span><strong>Call to book</strong><small>Speak directly with the salon</small></span>${icon("arrow")}</a></div></div></section>
     <section class="section social-section"><div class="shell social-card"><div><p class="eyebrow">Stay inspired</p><h2>Follow along for more nail ideas.</h2></div><div class="button-row"><a class="button button-secondary" href="${business.social.instagram}" ${externalAttrs}>${icon("instagram")} Instagram</a><a class="button button-secondary" href="${business.social.facebook}" ${externalAttrs}>${icon("facebook")} Facebook</a></div></div></section>`;
   return layout("visit", body, { bodyClass: "visit-page" });

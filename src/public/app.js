@@ -26,8 +26,7 @@ document.querySelectorAll("[data-year]").forEach((element) => {
   element.textContent = String(new Date().getFullYear());
 });
 
-const todayHours = document.querySelector("[data-today-hours]");
-if (todayHours) {
+document.querySelectorAll("[data-today-hours]").forEach((todayHours) => {
   try {
     const salonDay = new Intl.DateTimeFormat("en-US", {
       weekday: "long",
@@ -44,7 +43,7 @@ if (todayHours) {
   } catch {
     // Keep the useful link to the full hours list if local date formatting is unavailable.
   }
-}
+});
 
 const lightbox = document.querySelector("[data-lightbox]");
 if (lightbox instanceof HTMLDialogElement) {

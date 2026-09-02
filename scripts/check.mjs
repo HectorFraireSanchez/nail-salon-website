@@ -48,8 +48,11 @@ for (const { file, html } of pages) {
 
 const servicesHtml = pages.find(({ file }) => file === "services/index.html").html;
 const homeHtml = pages.find(({ file }) => file === "index.html").html;
+const visitHtml = pages.find(({ file }) => file === "visit/index.html").html;
 assert(homeHtml.includes("data-today-hours"), "Homepage is missing the current-day hours prompt");
 assert(homeHtml.includes(`data-time-zone="${business.timeZone}"`), "Homepage hours prompt is missing the salon timezone");
+assert(visitHtml.includes("visit-mobile-essentials"), "Visit page is missing the mobile essentials block");
+assert(visitHtml.includes("data-today-hours"), "Visit page is missing the current-day hours prompt");
 for (const entry of business.hours) {
   assert(decodeURIComponent(homeHtml).includes(`\"day\":\"${entry.day}\",\"display\":\"${entry.display}\"`), `Homepage hours prompt is missing ${entry.day}`);
 }
