@@ -1,9 +1,9 @@
 {
-  "name": "utopian-nails-spa",
+  "name": "utopian-nails",
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "description": "Mobile-first website for Utopian Nails Spa in Fort Worth, Texas.",
+  "description": "Mobile-first website for Utopian Nails in Fort Worth, Texas.",
   "scripts": {
     "dev": "node scripts/dev.mjs",
     "build": "node scripts/build.mjs",

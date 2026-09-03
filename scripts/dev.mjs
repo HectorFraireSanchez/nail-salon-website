@@ -3,6 +3,7 @@ import { extname, join, resolve } from "node:path";
 import { createServer } from "node:http";
 import { spawn } from "node:child_process";
 import { networkInterfaces } from "node:os";
+import { business } from "../src/data/business.mjs";
 
 const root = resolve(process.argv[2] || "dist");
 if (!existsSync(root)) {
@@ -52,7 +53,7 @@ server.on("error", (error) => {
 });
 
 server.on("listening", () => {
-  console.log("\nUtopian Nails Spa preview is ready:");
+  console.log(`\n${business.name} preview is ready:`);
   console.log(`  Computer: http://localhost:${port}`);
 
   const networkAddresses = localIpv4Addresses();

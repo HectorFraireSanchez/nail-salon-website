@@ -2,6 +2,7 @@ import { mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { homePage, servicesPage, galleryPage, visitPage } from "../src/site.mjs";
+import { business } from "../src/data/business.mjs";
 import { galleryImages } from "../src/data/gallery.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -48,13 +49,13 @@ for (const [relativePath, html] of pages) {
   await writeFile(outputPath, html, "utf8");
 }
 
-await writeFile(path.join(dist, "robots.txt"), `User-agent: *\nAllow: /\n\nSitemap: https://utopiannails.com/sitemap.xml\n`, "utf8");
+await writeFile(path.join(dist, "robots.txt"), `User-agent: *\nAllow: /\n\nSitemap: ${business.siteUrl}/sitemap.xml\n`, "utf8");
 await writeFile(path.join(dist, "sitemap.xml"), `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://utopiannails.com/</loc><priority>1.0</priority></url>
-  <url><loc>https://utopiannails.com/services/</loc><priority>0.9</priority></url>
-  <url><loc>https://utopiannails.com/gallery/</loc><priority>0.8</priority></url>
-  <url><loc>https://utopiannails.com/visit/</loc><priority>0.8</priority></url>
+  <url><loc>${business.siteUrl}/</loc><priority>1.0</priority></url>
+  <url><loc>${business.siteUrl}/services/</loc><priority>0.9</priority></url>
+  <url><loc>${business.siteUrl}/gallery/</loc><priority>0.8</priority></url>
+  <url><loc>${business.siteUrl}/visit/</loc><priority>0.8</priority></url>
 </urlset>
 `, "utf8");
 

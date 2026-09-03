@@ -8,6 +8,12 @@ import { homeGalleryFiles } from "../src/data/gallery.mjs";
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const dist = path.join(root, "dist");
 const pageFiles = ["index.html", "services/index.html", "gallery/index.html", "visit/index.html"];
+const pagePaths = new Map([
+  ["index.html", "/"],
+  ["services/index.html", "/services/"],
+  ["gallery/index.html", "/gallery/"],
+  ["visit/index.html", "/visit/"],
+]);
 const pages = await Promise.all(pageFiles.map(async (file) => ({ file, html: await readFile(path.join(dist, file), "utf8") })));
 const failures = [];
 
@@ -29,7 +35,12 @@ for (const { file, html } of pages) {
   assert((html.match(/<h1\b/g) || []).length === 1, `${file}: expected exactly one h1`);
   assert(/<title>[^<]+<\/title>/.test(html), `${file}: title is missing`);
   assert(/<meta name="description" content="[^"]+"/.test(html), `${file}: meta description is missing`);
-  assert(/<link rel="canonical" href="https:\/\/utopiannails\.com/.test(html), `${file}: canonical URL is missing`);
+  assert(html.includes(`<link rel="canonical" href="${business.siteUrl}${pagePaths.get(file)}"`), `${file}: canonical URL is missing`);
+  assert(html.includes(business.name), `${file}: current business name is missing`);
+  assert(html.includes(business.email), `${file}: current business email is missing`);
+  assert(!html.includes("Utopian Nails Spa"), `${file}: stale business name found`);
+  assert(!html.includes("https://utopiannails.com"), `${file}: stale website URL found`);
+  assert(!html.includes("Utopiannailsxspa@gmail.com"), `${file}: stale business email found`);
   assert(html.includes('<link rel="icon" href="/assets/logo.png" type="image/png"'), `${file}: replacement logo is not used as the favicon`);
   assert(html.includes('<img src="/assets/logo.png" width="1024" height="1024"'), `${file}: replacement logo dimensions are missing`);
 
@@ -86,6 +97,11 @@ for (const category of serviceCategories) {
 for (const requiredFile of ["robots.txt", "sitemap.xml"]) {
   try { await access(path.join(dist, requiredFile)); } catch { failures.push(`Missing production file: ${requiredFile}`); }
 }
+
+const robots = await readFile(path.join(dist, "robots.txt"), "utf8");
+const sitemap = await readFile(path.join(dist, "sitemap.xml"), "utf8");
+assert(robots.includes(`${business.siteUrl}/sitemap.xml`), "robots.txt contains the wrong sitemap URL");
+assert(sitemap.includes(`${business.siteUrl}/`) && !sitemap.includes("https://utopiannails.com/"), "sitemap.xml contains a stale website URL");
 
 if (failures.length) {
   console.error(`Validation failed (${failures.length}):`);

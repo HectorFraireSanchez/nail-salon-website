@@ -43,23 +43,23 @@ function instagramLink(label, { light = false } = {}) {
 const pageMeta = {
   home: {
     path: "/",
-    title: "Utopian Nails Spa | Nail Salon in Fort Worth, TX",
-    description: "Discover manicures, pedicures, builder gel, dip powder, acrylic nails, nail art, and waxing at Utopian Nails Spa in Fort Worth. Text or call to book.",
+    title: `${business.name} | Nail Salon in Fort Worth, TX`,
+    description: `Discover manicures, pedicures, builder gel, dip powder, acrylic nails, nail art, and waxing at ${business.name} in Fort Worth. Text or call to book.`,
   },
   services: {
     path: "/services/",
-    title: "Nail Services & Prices | Utopian Nails Spa Fort Worth",
-    description: "View current prices for pedicures, manicures, builder gel, dip powder, acrylic nails, nail art, waxing, and kids services at Utopian Nails Spa.",
+    title: `Nail Services & Prices | ${business.name} Fort Worth`,
+    description: `View current prices for pedicures, manicures, builder gel, dip powder, acrylic nails, nail art, waxing, and kids services at ${business.name}.`,
   },
   gallery: {
     path: "/gallery/",
-    title: "Nail Art Gallery | Utopian Nails Spa Fort Worth",
-    description: "Browse real nail work from Utopian Nails Spa in Fort Worth, including French tips, acrylic designs, colorful nail art, and classic manicures.",
+    title: `Nail Art Gallery | ${business.name} Fort Worth`,
+    description: `Browse real nail work from ${business.name} in Fort Worth, including French tips, acrylic designs, colorful nail art, and classic manicures.`,
   },
   visit: {
     path: "/visit/",
-    title: "Visit Utopian Nails Spa | Hours & Directions in Fort Worth",
-    description: "Find Utopian Nails Spa at 6201 Sunset Dr, Suite 104 in Fort Worth. View hours, get directions, or call or text to book your appointment.",
+    title: `Visit ${business.name} | Hours & Directions in Fort Worth`,
+    description: `Find ${business.name} at ${business.address.street} in Fort Worth. View hours, get directions, or call or text to book your appointment.`,
   },
 };
 
@@ -108,8 +108,8 @@ function header(active) {
     <a class="skip-link" href="#main">Skip to content</a>
     <header class="site-header" data-header>
       <div class="header-inner shell">
-        <a class="brand" href="/" aria-label="Utopian Nails Spa home">
-          <img src="/assets/logo.png" width="1024" height="1024" alt="Utopian Nails Spa" />
+        <a class="brand" href="/" aria-label="${business.name} home">
+          <img src="/assets/logo.png" width="1024" height="1024" alt="${business.name}" />
         </a>
         <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="site-nav" data-menu-toggle>
           <span></span><span></span><span></span>
@@ -139,11 +139,11 @@ function footer() {
   return `<footer class="site-footer">
     <div class="shell footer-grid">
       <div class="footer-brand">
-        <img src="/assets/logo.png" width="1024" height="1024" alt="Utopian Nails Spa" loading="lazy" />
+        <img src="/assets/logo.png" width="1024" height="1024" alt="${business.name}" loading="lazy" />
         <p>Thoughtful nail care, creative finishes, and a little room to unwind in Fort Worth.</p>
         <div class="social-links">
-          <a href="${business.social.instagram}" ${externalAttrs} aria-label="Utopian Nails Spa on Instagram">${icon("instagram")}<span>Instagram</span></a>
-          <a href="${business.social.facebook}" ${externalAttrs} aria-label="Utopian Nails Spa on Facebook">${icon("facebook")}<span>Facebook</span></a>
+          <a href="${business.social.instagram}" ${externalAttrs} aria-label="${business.name} on Instagram">${icon("instagram")}<span>Instagram</span></a>
+          <a href="${business.social.facebook}" ${externalAttrs} aria-label="${business.name} on Facebook">${icon("facebook")}<span>Facebook</span></a>
         </div>
       </div>
       <div>
@@ -164,7 +164,7 @@ function footer() {
         <a class="footer-contact footer-email" href="${links.email}">${business.email}</a>
       </div>
     </div>
-    <div class="shell footer-bottom"><p>© <span data-year></span> Utopian Nails Spa</p><p>Nail salon in Fort Worth, Texas</p></div>
+    <div class="shell footer-bottom"><p>© <span data-year></span> ${business.name}</p><p>Nail salon in Fort Worth, Texas</p></div>
   </footer>`;
 }
 
@@ -193,14 +193,14 @@ function layout(page, body, options = {}) {
   <link rel="canonical" href="${business.siteUrl}${meta.path}" />
   <meta name="theme-color" content="#241c1a" />
   <meta property="og:type" content="website" />
-  <meta property="og:site_name" content="Utopian Nails Spa" />
+  <meta property="og:site_name" content="${business.name}" />
   <meta property="og:title" content="${meta.title}" />
   <meta property="og:description" content="${meta.description}" />
   <meta property="og:url" content="${business.siteUrl}${meta.path}" />
   <meta property="og:image" content="${business.siteUrl}/assets/logo.png" />
   <meta property="og:image:width" content="1024" />
   <meta property="og:image:height" content="1024" />
-  <meta property="og:image:alt" content="Utopian Nails Spa logo" />
+  <meta property="og:image:alt" content="${business.name} logo" />
   <meta name="twitter:card" content="summary_large_image" />
   <link rel="icon" href="/assets/logo.png" type="image/png" />
   <link rel="stylesheet" href="/assets/styles.css" />
@@ -273,7 +273,7 @@ export function homePage() {
 
     <section class="section reviews-section" aria-labelledby="reviews-title">
       <div class="shell">
-        <div class="section-heading split-heading"><div><p class="eyebrow">Kind words</p><h2 id="reviews-title">What guests remember.</h2></div><p>Real comments shared by Utopian Nails Spa customers.</p></div>
+        <div class="section-heading split-heading"><div><p class="eyebrow">Kind words</p><h2 id="reviews-title">What guests remember.</h2></div><p>Real comments shared by ${business.name} customers.</p></div>
         <div class="review-grid">${reviewCards()}</div>
       </div>
     </section>
@@ -331,7 +331,7 @@ export function galleryPage() {
     <img src="/assets/gallery/${image.file}" width="${image.width}" height="${image.height}" alt="${image.alt}" loading="${index < 4 ? "eager" : "lazy"}" ${index < 2 ? 'fetchpriority="high"' : ""} />
   </button>`).join("");
   const body = `
-    <section class="page-hero gallery-page-hero"><div class="shell gallery-hero-inner"><div><p class="eyebrow">Our work</p><h1>Details worth a <em>closer look.</em></h1></div><div class="gallery-hero-copy"><p>From understated French tips to bright color and dimensional art, browse real sets from the Utopian Nails Spa gallery.</p>${instagramLink("See more of our work on Instagram", { light: true })}</div></div></section>
+    <section class="page-hero gallery-page-hero"><div class="shell gallery-hero-inner"><div><p class="eyebrow">Our work</p><h1>Details worth a <em>closer look.</em></h1></div><div class="gallery-hero-copy"><p>From understated French tips to bright color and dimensional art, browse real sets from the ${business.name} gallery.</p>${instagramLink("See more of our work on Instagram", { light: true })}</div></div></section>
     <section class="gallery-section section" aria-label="Nail art gallery"><div class="shell gallery-grid">${gallery}</div></section>
     <dialog class="lightbox" data-lightbox aria-label="Enlarged gallery image"><button type="button" class="lightbox-close" data-lightbox-close aria-label="Close enlarged image">${icon("close")}</button><button type="button" class="lightbox-nav lightbox-prev" data-lightbox-prev aria-label="Previous image">‹</button><figure><img src="" alt="" data-lightbox-image /><figcaption data-lightbox-caption></figcaption></figure><button type="button" class="lightbox-nav lightbox-next" data-lightbox-next aria-label="Next image">›</button></dialog>
     ${ctaBanner({ eyebrow: "Have a reference photo?", title: "Bring the idea. We’ll talk through the details.", text: "Text the salon to share a look, or call to reserve your appointment." })}`;
@@ -340,7 +340,7 @@ export function galleryPage() {
 
 export function visitPage() {
   const body = `
-    <section class="page-hero visit-page-hero"><div class="shell page-hero-grid"><div class="visit-hero-copy"><p class="eyebrow">Visit Utopian Nails Spa</p><h1>Come in, settle down, <em>leave polished.</em></h1><p class="visit-intro">Find us in Fort Worth. Text or call to book, or tap the address for turn-by-turn directions.</p>${walkInsStatus("visit-walk-ins")}<div class="visit-mobile-essentials"><a class="visit-mobile-address" href="${links.directions}" ${externalAttrs}>${icon("map")}<span>${business.address.street}<br />${business.address.city}, ${business.address.state} ${business.address.postalCode}</span></a>${todayHoursStatus({ className: "visit-today-hours" })}<a class="button button-light" href="${links.directions}" ${externalAttrs}>Get directions ${icon("arrow")}</a></div><div class="button-row visit-desktop-actions"><a class="button button-primary" href="${links.directions}" ${externalAttrs}>${icon("map")} Get directions</a><a class="button button-secondary" href="${links.text}">${icon("message")} Text us</a></div></div></div></section>
+    <section class="page-hero visit-page-hero"><div class="shell page-hero-grid"><div class="visit-hero-copy"><p class="eyebrow">Visit ${business.name}</p><h1>Come in, settle down, <em>leave polished.</em></h1><p class="visit-intro">Find us in Fort Worth. Text or call to book, or tap the address for turn-by-turn directions.</p>${walkInsStatus("visit-walk-ins")}<div class="visit-mobile-essentials"><a class="visit-mobile-address" href="${links.directions}" ${externalAttrs}>${icon("map")}<span>${business.address.street}<br />${business.address.city}, ${business.address.state} ${business.address.postalCode}</span></a>${todayHoursStatus({ className: "visit-today-hours" })}<a class="button button-light" href="${links.directions}" ${externalAttrs}>Get directions ${icon("arrow")}</a></div><div class="button-row visit-desktop-actions"><a class="button button-primary" href="${links.directions}" ${externalAttrs}>${icon("map")} Get directions</a><a class="button button-secondary" href="${links.text}">${icon("message")} Text us</a></div></div></div></section>
     <section class="section contact-section" aria-label="Visit details"><div class="shell contact-grid">
       <div class="contact-card contact-card-location"><p class="eyebrow">Location</p><h2 id="contact-title">Fort Worth, Texas</h2><address>${business.address.street}<br />${business.address.city}, ${business.address.state} ${business.address.postalCode}</address><a class="text-link" href="${links.directions}" ${externalAttrs}>Open in Google Maps ${icon("arrow")}</a></div>
       <div class="contact-card contact-card-hours"><p class="eyebrow">Weekly hours</p>${hoursList()}</div>

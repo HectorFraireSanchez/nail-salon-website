@@ -1,7 +1,7 @@
 export const business = {
-  name: "Utopian Nails Spa",
-  legalDisplayName: "Utopian Nails Spa",
-  siteUrl: "https://utopiannails.com",
+  name: "Utopian Nails",
+  legalDisplayName: "Utopian Nails",
+  siteUrl: "https://utopiannailsstudio.com",
   address: {
     street: "6201 Sunset Dr, Suite 104",
     city: "Fort Worth",
@@ -14,7 +14,7 @@ export const business = {
     display: "+1 (682) 559-4401",
     uri: "+16825594401",
   },
-  email: "Utopiannailsxspa@gmail.com",
+  email: "utopiannailsdfw@gmail.com",
   timeZone: "America/Chicago",
   walkInsMessage: "Walk-ins welcome",
   social: {
