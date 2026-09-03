@@ -22,6 +22,9 @@ function assert(condition, message) {
 }
 
 const expectedUrls = [business.social.facebook, business.social.instagram, links.text, links.call, links.directions];
+const directionsDestination = new URL(links.directions).searchParams.get("destination");
+assert(directionsDestination === business.address.directionsDestination, "Google Maps directions use the wrong destination");
+assert(directionsDestination.includes(business.locationName) && directionsDestination.includes("#650"), "Google Maps directions do not identify Phenix Salon Suites at Suite 650");
 for (const expected of expectedUrls) {
   assert(pages.some(({ html }) => html.includes(expected.replaceAll("&", "&amp;"))) || pages.some(({ html }) => html.includes(expected)), `Missing expected URL: ${expected}`);
 }
@@ -30,6 +33,9 @@ assert(!pages.some(({ html }) => /manage2\.mangoforsalon\.com|book online/i.test
 
 for (const { file, html } of pages) {
   assert(html.includes(business.address.street), `${file}: current street address is missing`);
+  assert(html.includes(business.locationName), `${file}: Phenix Salon Suites location is missing`);
+  assert(/small,? (?:welcoming )?nail studio|intimate nail studio/i.test(html), `${file}: small nail studio description is missing`);
+  assert(!/two-person/i.test(html), `${file}: staffing-specific studio description is still present`);
   assert(html.includes(business.phone.display) || file === "gallery/index.html" || file === "services/index.html", `${file}: current phone is missing`);
   assert(!/Hurst|420 Grapevine|6201 Sunset Dr, Suite 104|817-849-5808|817-807-8630/i.test(html), `${file}: stale contact information found`);
   assert((html.match(/<h1\b/g) || []).length === 1, `${file}: expected exactly one h1`);
@@ -41,6 +47,8 @@ for (const { file, html } of pages) {
   assert(!html.includes("Utopian Nails Spa"), `${file}: stale business name found`);
   assert(!html.includes("https://utopiannails.com"), `${file}: stale website URL found`);
   assert(!html.includes("Utopiannailsxspa@gmail.com"), `${file}: stale business email found`);
+  const mapLinks = [...html.matchAll(/href="(https:\/\/www\.google\.com\/maps\/dir\/\?[^\"]+)"/g)].map((match) => match[1].replaceAll("&amp;", "&"));
+  assert(mapLinks.length > 0 && mapLinks.every((href) => href === links.directions), `${file}: contains an incorrect Google Maps directions link`);
   assert(html.includes('<link rel="icon" href="/assets/logo.png" type="image/png"'), `${file}: replacement logo is not used as the favicon`);
   assert(html.includes('<img src="/assets/logo.png" width="1024" height="1024"'), `${file}: replacement logo dimensions are missing`);
 
@@ -49,6 +57,8 @@ for (const { file, html } of pages) {
     const parsed = JSON.parse(jsonLd);
     assert(parsed["@type"] === "NailSalon", `${file}: schema type is not NailSalon`);
     assert(parsed.telephone === business.phone.uri, `${file}: schema phone is incorrect`);
+    assert(parsed.address?.streetAddress === business.address.street, `${file}: schema street address is incorrect`);
+    assert(parsed.containedInPlace?.name === business.locationName, `${file}: schema Phenix Salon Suites location is missing`);
   } catch {
     failures.push(`${file}: structured data is invalid JSON`);
   }
@@ -65,7 +75,9 @@ const homeHtml = pages.find(({ file }) => file === "index.html").html;
 const galleryHtml = pages.find(({ file }) => file === "gallery/index.html").html;
 const visitHtml = pages.find(({ file }) => file === "visit/index.html").html;
 const homePhotoReferences = homeHtml.match(/\/assets\/gallery\//g) ?? [];
+const heroDescription = homeHtml.match(/<p class="hero-lede">([^<]+)<\/p>/)?.[1] ?? "";
 assert(!/The Utopian feeling|Care in every detail|experience-section/.test(homeHtml), "Homepage still contains the removed experience section");
+assert(heroDescription && !heroDescription.includes(business.locationName) && !/Studio 104|6201 Sunset/i.test(heroDescription), "Homepage hero description contains location details");
 assert(homePhotoReferences.length === homeGalleryFiles.length, "Homepage contains photography outside its gallery showcase");
 for (const file of ["services/index.html", "visit/index.html"]) {
   const html = pages.find((page) => page.file === file).html;

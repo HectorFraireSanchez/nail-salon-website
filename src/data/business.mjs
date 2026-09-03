@@ -2,13 +2,15 @@ export const business = {
   name: "Utopian Nails",
   legalDisplayName: "Utopian Nails",
   siteUrl: "https://utopiannailsstudio.com",
+  locationName: "Phenix Salon Suites of Camp Bowie",
   address: {
-    street: "6201 Sunset Dr, Suite 650, Studio 104",
+    street: "6201 Sunset Dr Suite 650 Studio 104",
     city: "Fort Worth",
     state: "TX",
     postalCode: "76116",
     country: "US",
-    formatted: "6201 Sunset Dr, Suite 650, Studio 104, Fort Worth, TX 76116",
+    formatted: "6201 Sunset Dr Suite 650 Studio 104, Fort Worth, TX 76116",
+    directionsDestination: "Phenix Salon Suites of Camp Bowie, 6201 Sunset Dr #650, Fort Worth, TX 76116",
   },
   phone: {
     display: "+1 (682) 559-4401",
@@ -36,5 +38,5 @@ export const links = {
   text: `sms:${business.phone.uri}?body=${encodeURIComponent("Hi! I'd like to book a nail appointment.")}`,
   call: `tel:${business.phone.uri}`,
   email: `mailto:${business.email}`,
-  directions: `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(business.address.formatted)}`,
+  directions: `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(business.address.directionsDestination)}`,
 };

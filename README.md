@@ -1,6 +1,6 @@
 # Utopian Nails Website
 
-A mobile-first redesign and rebuild for [Utopian Nails](https://utopiannailsstudio.com/), a real local nail salon in Fort Worth, Texas. The site is designed to help prospective guests quickly see the salon’s work, understand services and prices, and take the next step by text, phone, or directions.
+A mobile-first redesign and rebuild for [Utopian Nails](https://utopiannailsstudio.com/), a small nail studio inside Phenix Salon Suites of Camp Bowie, Studio 104, in Fort Worth, Texas. The site is designed to help prospective guests quickly see the studio’s work, understand services and prices, and take the next step by text, phone, or directions.
 
 ## Goals
 
