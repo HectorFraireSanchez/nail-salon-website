@@ -44,7 +44,7 @@ const pageMeta = {
   home: {
     path: "/",
     title: `${business.name} | Nail Studio in Fort Worth, TX`,
-    description: `${business.name} is a small, welcoming nail studio inside ${business.locationName}, Studio 104. Explore manicures, pedicures, nail art, and more.`,
+    description: `${business.name} is a small, welcoming nail studio located in ${business.locationName}, Studio 104. Explore manicures, pedicures, nail art, and more.`,
   },
   services: {
     path: "/services/",
@@ -59,7 +59,7 @@ const pageMeta = {
   visit: {
     path: "/visit/",
     title: `Visit ${business.name} | Hours & Directions in Fort Worth`,
-    description: `Find ${business.name}, a small nail studio inside ${business.locationName}, Studio 104. View hours and get directions in Fort Worth.`,
+    description: `Find ${business.name}, a small nail studio located in ${business.locationName}, Studio 104. View hours and get directions in Fort Worth.`,
   },
 };
 
@@ -84,7 +84,7 @@ function structuredData(meta) {
     logo: `${business.siteUrl}/assets/logo.png`,
     email: business.email,
     telephone: business.phone.uri,
-    description: `${business.name} is a small nail studio located inside ${business.locationName}, Studio 104.`,
+    description: `${business.name} is a small nail studio located in ${business.locationName}, Studio 104.`,
     hasMap: links.directions,
     containedInPlace: {
       "@type": "LocalBusiness",
@@ -164,13 +164,13 @@ function footer() {
       <div>
         <p class="footer-label">Visit</p>
         <address>
-          <a href="${links.directions}" ${externalAttrs}><strong>${business.locationName}</strong><br />${business.address.street}<br />${business.address.city}, ${business.address.state} ${business.address.postalCode}</a>
+          <a href="${links.directions}" ${externalAttrs}>Located in<br /><strong>${business.locationName}</strong><br />${business.address.street}<br />${business.address.city}, ${business.address.state} ${business.address.postalCode}</a>
         </address>
         <a class="footer-contact" href="${links.call}">${business.phone.display}</a>
         <a class="footer-contact footer-email" href="${links.email}">${business.email}</a>
       </div>
     </div>
-    <div class="shell footer-bottom"><p>© <span data-year></span> ${business.name}</p><p>Intimate nail studio in Fort Worth, Texas</p></div>
+    <div class="shell footer-bottom"><p>© <span data-year></span> ${business.name}</p><p>Personal nail studio in Fort Worth, Texas</p></div>
   </footer>`;
 }
 
@@ -244,7 +244,7 @@ export function homePage() {
     <section class="hero">
       <div class="shell hero-grid">
         <div class="hero-copy">
-          <p class="eyebrow">Intimate nail studio · Fort Worth, Texas</p>
+          <p class="eyebrow">Personal nail studio · Fort Worth, Texas</p>
           <h1>A little escape.<br /><em>A beautiful finish.</em></h1>
           <p class="hero-lede">From polished classics to bold nail art, enjoy thoughtful care in a relaxed, personal studio setting.</p>
           <div class="hero-status-row">${todayHoursStatus({ linkToHours: true })}${walkInsStatus()}</div>
@@ -252,7 +252,7 @@ export function homePage() {
             <a class="button button-primary" href="${links.text}">${icon("message")} Text to book</a>
             <a class="button button-secondary" href="${links.call}">${icon("phone")} Call to book</a>
           </div>
-          <a class="hero-location" href="${links.directions}" ${externalAttrs}>${icon("map")}<span>${business.locationName} · Studio 104<br />Fort Worth, TX</span></a>
+          <a class="hero-location" href="${links.directions}" ${externalAttrs}>${icon("map")}<span>Located in ${business.locationName}<br />Studio 104 · Fort Worth, TX</span></a>
         </div>
       </div>
     </section>
@@ -288,7 +288,7 @@ export function homePage() {
       <div class="shell visit-card">
         <div class="visit-details">
           <p class="eyebrow">Come see us</p><h2 id="visit-title">Your chair is waiting.</h2>
-          <p>Find our small nail studio inside ${business.locationName}—just look for Studio 104.</p>
+          <p>Our small nail studio is located in ${business.locationName}. Look for Studio 104.</p>
           <a class="address-link" href="${links.directions}" ${externalAttrs}>${icon("map")}<span>${business.address.street}<br />${business.address.city}, ${business.address.state} ${business.address.postalCode}</span></a>
           ${hoursList(true)}
           <div class="button-row"><a class="button button-primary" href="${links.directions}" ${externalAttrs}>Get directions ${icon("arrow")}</a><a class="button button-quiet" href="${links.call}">${icon("phone")} Call</a></div>
@@ -347,9 +347,9 @@ export function galleryPage() {
 
 export function visitPage() {
   const body = `
-    <section class="page-hero visit-page-hero"><div class="shell page-hero-grid"><div class="visit-hero-copy"><p class="eyebrow">Visit ${business.name}</p><h1>Come in, settle down, <em>leave polished.</em></h1><p class="visit-intro">Utopian Nails is a small, welcoming nail studio located inside ${business.locationName}. Enter the salon suites and look for Studio 104.</p>${walkInsStatus("visit-walk-ins")}<div class="visit-mobile-essentials"><a class="visit-mobile-address" href="${links.directions}" ${externalAttrs}>${icon("map")}<span><strong>${business.locationName}</strong><br />${business.address.street}<br />${business.address.city}, ${business.address.state} ${business.address.postalCode}</span></a>${todayHoursStatus({ className: "visit-today-hours" })}<a class="button button-light" href="${links.directions}" ${externalAttrs}>Get directions ${icon("arrow")}</a></div><div class="button-row visit-desktop-actions"><a class="button button-primary" href="${links.directions}" ${externalAttrs}>${icon("map")} Get directions</a><a class="button button-secondary" href="${links.text}">${icon("message")} Text us</a></div></div></div></section>
+    <section class="page-hero visit-page-hero"><div class="shell page-hero-grid"><div class="visit-hero-copy"><p class="eyebrow">Visit ${business.name}</p><h1>Come in, settle down, <em>leave polished.</em></h1><p class="visit-intro">Utopian Nails is a small, welcoming nail studio located in ${business.locationName}. Enter the salon suites and look for Studio 104.</p>${walkInsStatus("visit-walk-ins")}<div class="visit-mobile-essentials"><a class="visit-mobile-address" href="${links.directions}" ${externalAttrs}>${icon("map")}<span>Located in<br /><strong>${business.locationName}</strong><br />${business.address.street}<br />${business.address.city}, ${business.address.state} ${business.address.postalCode}</span></a>${todayHoursStatus({ className: "visit-today-hours" })}<a class="button button-light" href="${links.directions}" ${externalAttrs}>Get directions ${icon("arrow")}</a></div><div class="button-row visit-desktop-actions"><a class="button button-primary" href="${links.directions}" ${externalAttrs}>${icon("map")} Get directions</a><a class="button button-secondary" href="${links.text}">${icon("message")} Text us</a></div></div></div></section>
     <section class="section contact-section" aria-label="Visit details"><div class="shell contact-grid">
-      <div class="contact-card contact-card-location"><p class="eyebrow">Our studio is inside</p><h2 id="contact-title">${business.locationName}</h2><address>${business.address.street}<br />${business.address.city}, ${business.address.state} ${business.address.postalCode}</address><a class="text-link" href="${links.directions}" ${externalAttrs}>Open in Google Maps ${icon("arrow")}</a></div>
+      <div class="contact-card contact-card-location"><p class="eyebrow">Located in</p><h2 id="contact-title">${business.locationName}</h2><address>${business.address.street}<br />${business.address.city}, ${business.address.state} ${business.address.postalCode}</address><a class="text-link" href="${links.directions}" ${externalAttrs}>Open Utopian Nails in Google Maps ${icon("arrow")}</a></div>
       <div class="contact-card contact-card-hours"><p class="eyebrow">Weekly hours</p>${hoursList()}</div>
       <div class="contact-card"><p class="eyebrow">Get in touch</p><div class="contact-links"><a href="${links.text}">${icon("message")}<span><small>Text to book</small>${business.phone.display}</span></a><a href="${links.call}">${icon("phone")}<span><small>Call the salon</small>${business.phone.display}</span></a><a href="${links.email}">${icon("mail")}<span><small>Email</small>${business.email}</span></a></div></div>
     </div></section>

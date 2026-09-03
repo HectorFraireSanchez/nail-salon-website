@@ -24,7 +24,7 @@ function assert(condition, message) {
 const expectedUrls = [business.social.facebook, business.social.instagram, links.text, links.call, links.directions];
 const directionsDestination = new URL(links.directions).searchParams.get("destination");
 assert(directionsDestination === business.address.directionsDestination, "Google Maps directions use the wrong destination");
-assert(directionsDestination.includes(business.locationName) && directionsDestination.includes("#650"), "Google Maps directions do not identify Phenix Salon Suites at Suite 650");
+assert(directionsDestination.startsWith(`${business.name}, `) && directionsDestination.includes(business.address.formatted), "Google Maps directions do not identify Utopian Nails at the full studio address");
 for (const expected of expectedUrls) {
   assert(pages.some(({ html }) => html.includes(expected.replaceAll("&", "&amp;"))) || pages.some(({ html }) => html.includes(expected)), `Missing expected URL: ${expected}`);
 }
@@ -34,8 +34,9 @@ assert(!pages.some(({ html }) => /manage2\.mangoforsalon\.com|book online/i.test
 for (const { file, html } of pages) {
   assert(html.includes(business.address.street), `${file}: current street address is missing`);
   assert(html.includes(business.locationName), `${file}: Phenix Salon Suites location is missing`);
-  assert(/small,? (?:welcoming )?nail studio|intimate nail studio/i.test(html), `${file}: small nail studio description is missing`);
+  assert(/small,? (?:welcoming )?nail studio|personal nail studio/i.test(html), `${file}: small nail studio description is missing`);
   assert(!/two-person/i.test(html), `${file}: staffing-specific studio description is still present`);
+  assert(!/intimate nail studio/i.test(html), `${file}: old intimate studio description is still present`);
   assert(html.includes(business.phone.display) || file === "gallery/index.html" || file === "services/index.html", `${file}: current phone is missing`);
   assert(!/Hurst|420 Grapevine|6201 Sunset Dr, Suite 104|817-849-5808|817-807-8630/i.test(html), `${file}: stale contact information found`);
   assert((html.match(/<h1\b/g) || []).length === 1, `${file}: expected exactly one h1`);

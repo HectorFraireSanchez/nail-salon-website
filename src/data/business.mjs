@@ -10,7 +10,7 @@ export const business = {
     postalCode: "76116",
     country: "US",
     formatted: "6201 Sunset Dr Suite 650 Studio 104, Fort Worth, TX 76116",
-    directionsDestination: "Phenix Salon Suites of Camp Bowie, 6201 Sunset Dr #650, Fort Worth, TX 76116",
+    directionsDestination: "Utopian Nails, 6201 Sunset Dr Suite 650 Studio 104, Fort Worth, TX 76116",
   },
   phone: {
     display: "+1 (682) 559-4401",
