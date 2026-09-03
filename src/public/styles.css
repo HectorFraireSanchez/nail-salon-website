@@ -85,10 +85,13 @@ em { color: var(--rose); font-weight: 400; }
 .hero-copy h1 { font-size: clamp(4rem, 7.6vw, 7.8rem); }
 .hero-copy h1 em { color: #ddaaa8; }
 .hero-lede { max-width: 590px; margin-bottom: 32px; color: rgba(255,255,255,.78); font-family: var(--serif); font-size: clamp(1.15rem, 2vw, 1.5rem); line-height: 1.45; }
-.hero-hours { display: inline-flex; margin: -10px 0 22px; padding: 9px 14px; border: 1px solid rgba(255,255,255,.2); border-radius: 100px; align-items: center; gap: 9px; color: #fff; background: rgba(255,255,255,.07); font-size: .78rem; font-weight: 700; letter-spacing: .02em; text-decoration: none; }
+.hero-status-row { display: flex; margin: -10px 0 22px; flex-wrap: wrap; align-items: center; gap: 10px 16px; }
+.hero-hours { display: inline-flex; margin: 0; padding: 9px 14px; border: 1px solid rgba(255,255,255,.2); border-radius: 100px; align-items: center; gap: 9px; color: #fff; background: rgba(255,255,255,.07); font-size: .78rem; font-weight: 700; letter-spacing: .02em; text-decoration: none; }
 .hero-hours:hover { border-color: rgba(255,255,255,.42); background: rgba(255,255,255,.12); }
 .hero-hours .icon { width: 17px; height: 17px; color: #e5c3c2; }
 .hero-hours.is-closed { color: rgba(255,255,255,.76); }
+.walk-ins-status, .visit-walk-ins { display: inline-flex; margin: 0; align-items: center; gap: 8px; color: rgba(255,255,255,.82); font-size: .78rem; font-weight: 700; letter-spacing: .02em; }
+.status-dot { width: 7px; height: 7px; border-radius: 50%; background: #d7aaa7; box-shadow: 0 0 0 3px rgba(215,170,167,.14); }
 .hero-actions { margin-bottom: 36px; }
 .hero .button-secondary { color: #fff; border-color: rgba(255,255,255,.55); }
 .hero .button-secondary:hover { color: var(--ink); background: #fff; }
@@ -255,6 +258,7 @@ em { color: var(--rose); font-weight: 400; }
 /* Visit */
 .visit-mobile-essentials { display: none; }
 .visit-intro { max-width: 610px; color: rgba(255,255,255,.7); font-family: var(--serif); font-size: 1.25rem; }
+.visit-walk-ins { margin-top: 6px; }
 .visit-page-hero .button-row { margin-top: 32px; }
 .visit-page-hero .button-secondary { color: #fff; border-color: rgba(255,255,255,.5); }
 .visit-page-hero .button-secondary:hover { color: var(--ink); background: #fff; }
@@ -391,6 +395,7 @@ em { color: var(--rose); font-weight: 400; }
   .visit-page-hero .eyebrow { margin-bottom: 10px; }
   .visit-page-hero h1 { margin-bottom: 22px; font-size: clamp(2.75rem, 12vw, 3.65rem); }
   .visit-page-hero .visit-intro, .visit-page-hero .visit-desktop-actions { display: none; }
+  .visit-walk-ins { margin: 0 0 18px; }
   .visit-mobile-essentials { display: grid; padding-top: 20px; border-top: 1px solid rgba(255,255,255,.18); gap: 15px; }
   .visit-mobile-address, .visit-today-hours { display: flex; margin: 0; align-items: flex-start; gap: 11px; color: rgba(255,255,255,.82); font-size: .84rem; line-height: 1.5; text-decoration: none; }
   .visit-mobile-address .icon, .visit-today-hours .icon { width: 18px; height: 18px; margin-top: 1px; color: #e5c3c2; }

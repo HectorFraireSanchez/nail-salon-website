@@ -30,6 +30,10 @@ function todayHoursStatus({ className = "hero-hours", linkToHours = false } = {}
   </${tag}>`;
 }
 
+function walkInsStatus(className = "walk-ins-status") {
+  return `<p class="${className}"><span class="status-dot" aria-hidden="true"></span>${business.walkInsMessage}</p>`;
+}
+
 function instagramLink(label, { light = false } = {}) {
   return `<a class="instagram-link${light ? " instagram-link-light" : ""}" href="${business.social.instagram}" ${externalAttrs} aria-label="${label} (opens in a new tab)">
     ${icon("instagram")}<span>${label}</span>
@@ -237,7 +241,7 @@ export function homePage() {
           <p class="eyebrow">Nail salon · Fort Worth, Texas</p>
           <h1>A little escape.<br /><em>A beautiful finish.</em></h1>
           <p class="hero-lede">From polished classics to bold nail art, come settle in for thoughtful care and a look that feels like you.</p>
-          ${todayHoursStatus({ linkToHours: true })}
+          <div class="hero-status-row">${todayHoursStatus({ linkToHours: true })}${walkInsStatus()}</div>
           <div class="button-row hero-actions">
             <a class="button button-primary" href="${links.text}">${icon("message")} Text to book</a>
             <a class="button button-secondary" href="${links.call}">${icon("phone")} Call to book</a>
@@ -336,7 +340,7 @@ export function galleryPage() {
 
 export function visitPage() {
   const body = `
-    <section class="page-hero visit-page-hero"><div class="shell page-hero-grid"><div class="visit-hero-copy"><p class="eyebrow">Visit Utopian Nails Spa</p><h1>Come in, settle down, <em>leave polished.</em></h1><p class="visit-intro">Find us in Fort Worth. Text or call to book, or tap the address for turn-by-turn directions.</p><div class="visit-mobile-essentials"><a class="visit-mobile-address" href="${links.directions}" ${externalAttrs}>${icon("map")}<span>${business.address.street}<br />${business.address.city}, ${business.address.state} ${business.address.postalCode}</span></a>${todayHoursStatus({ className: "visit-today-hours" })}<a class="button button-light" href="${links.directions}" ${externalAttrs}>Get directions ${icon("arrow")}</a></div><div class="button-row visit-desktop-actions"><a class="button button-primary" href="${links.directions}" ${externalAttrs}>${icon("map")} Get directions</a><a class="button button-secondary" href="${links.text}">${icon("message")} Text us</a></div></div></div></section>
+    <section class="page-hero visit-page-hero"><div class="shell page-hero-grid"><div class="visit-hero-copy"><p class="eyebrow">Visit Utopian Nails Spa</p><h1>Come in, settle down, <em>leave polished.</em></h1><p class="visit-intro">Find us in Fort Worth. Text or call to book, or tap the address for turn-by-turn directions.</p>${walkInsStatus("visit-walk-ins")}<div class="visit-mobile-essentials"><a class="visit-mobile-address" href="${links.directions}" ${externalAttrs}>${icon("map")}<span>${business.address.street}<br />${business.address.city}, ${business.address.state} ${business.address.postalCode}</span></a>${todayHoursStatus({ className: "visit-today-hours" })}<a class="button button-light" href="${links.directions}" ${externalAttrs}>Get directions ${icon("arrow")}</a></div><div class="button-row visit-desktop-actions"><a class="button button-primary" href="${links.directions}" ${externalAttrs}>${icon("map")} Get directions</a><a class="button button-secondary" href="${links.text}">${icon("message")} Text us</a></div></div></div></section>
     <section class="section contact-section" aria-label="Visit details"><div class="shell contact-grid">
       <div class="contact-card contact-card-location"><p class="eyebrow">Location</p><h2 id="contact-title">Fort Worth, Texas</h2><address>${business.address.street}<br />${business.address.city}, ${business.address.state} ${business.address.postalCode}</address><a class="text-link" href="${links.directions}" ${externalAttrs}>Open in Google Maps ${icon("arrow")}</a></div>
       <div class="contact-card contact-card-hours"><p class="eyebrow">Weekly hours</p>${hoursList()}</div>

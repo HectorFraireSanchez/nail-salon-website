@@ -60,6 +60,9 @@ for (const file of ["services/index.html", "visit/index.html"]) {
 }
 assert(homeHtml.includes("data-today-hours"), "Homepage is missing the current-day hours prompt");
 assert(homeHtml.includes(`data-time-zone="${business.timeZone}"`), "Homepage hours prompt is missing the salon timezone");
+for (const [page, html] of [["Homepage", homeHtml], ["Visit page", visitHtml]]) {
+  assert(html.includes(business.walkInsMessage), `${page} is missing the walk-ins message`);
+}
 for (const [page, html] of [["Homepage", homeHtml], ["Gallery page", galleryHtml]]) {
   assert(html.includes(`class="instagram-link`) && html.includes(`href="${business.social.instagram}" target="_blank" rel="noopener noreferrer"`), `${page} is missing its Instagram callout`);
 }

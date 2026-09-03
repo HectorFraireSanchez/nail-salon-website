@@ -16,6 +16,7 @@ export const business = {
   },
   email: "Utopiannailsxspa@gmail.com",
   timeZone: "America/Chicago",
+  walkInsMessage: "Walk-ins welcome",
   social: {
     facebook: "https://www.facebook.com/utopiannailsspa",
     instagram: "https://www.instagram.com/utopian_nailsspa",
