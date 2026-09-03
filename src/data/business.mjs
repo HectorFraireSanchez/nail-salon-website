@@ -21,7 +21,7 @@ export const business = {
   walkInsMessage: "Walk-ins welcome",
   social: {
     facebook: "https://www.facebook.com/utopiannailsspa",
-    instagram: "https://www.instagram.com/utopian_nailsspa",
+    instagram: "https://instagram.com/utopiannailsstudio",
   },
   hours: [
     { day: "Monday", short: "Mon", display: "Closed", closed: true },
