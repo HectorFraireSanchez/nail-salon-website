@@ -3,12 +3,12 @@ export const business = {
   legalDisplayName: "Utopian Nails Spa",
   siteUrl: "https://utopiannails.com",
   address: {
-    street: "6201 Sunset Dr 650, Suite 104",
+    street: "6201 Sunset Dr, Suite 104",
     city: "Fort Worth",
     state: "TX",
     postalCode: "76116",
     country: "US",
-    formatted: "6201 Sunset Dr 650, Suite 104, Fort Worth, TX 76116",
+    formatted: "6201 Sunset Dr, Suite 104, Fort Worth, TX 76116",
   },
   phone: {
     display: "+1 (682) 559-4401",

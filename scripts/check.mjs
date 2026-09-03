@@ -25,11 +25,13 @@ assert(!pages.some(({ html }) => /manage2\.mangoforsalon\.com|book online/i.test
 for (const { file, html } of pages) {
   assert(html.includes(business.address.street), `${file}: current street address is missing`);
   assert(html.includes(business.phone.display) || file === "gallery/index.html" || file === "services/index.html", `${file}: current phone is missing`);
-  assert(!/Hurst|420 Grapevine|817-849-5808|817-807-8630/i.test(html), `${file}: stale contact information found`);
+  assert(!/Hurst|420 Grapevine|Sunset Dr 650|817-849-5808|817-807-8630/i.test(html), `${file}: stale contact information found`);
   assert((html.match(/<h1\b/g) || []).length === 1, `${file}: expected exactly one h1`);
   assert(/<title>[^<]+<\/title>/.test(html), `${file}: title is missing`);
   assert(/<meta name="description" content="[^"]+"/.test(html), `${file}: meta description is missing`);
   assert(/<link rel="canonical" href="https:\/\/utopiannails\.com/.test(html), `${file}: canonical URL is missing`);
+  assert(html.includes('<link rel="icon" href="/assets/logo.png" type="image/png"'), `${file}: replacement logo is not used as the favicon`);
+  assert(html.includes('<img src="/assets/logo.png" width="1024" height="1024"'), `${file}: replacement logo dimensions are missing`);
 
   const jsonLd = html.match(/<script type="application\/ld\+json">([^<]+)<\/script>/)?.[1];
   try {
@@ -81,7 +83,7 @@ for (const category of serviceCategories) {
   }
 }
 
-for (const requiredFile of ["robots.txt", "sitemap.xml", "favicon.svg"]) {
+for (const requiredFile of ["robots.txt", "sitemap.xml"]) {
   try { await access(path.join(dist, requiredFile)); } catch { failures.push(`Missing production file: ${requiredFile}`); }
 }
 

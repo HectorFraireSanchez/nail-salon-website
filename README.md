@@ -80,7 +80,7 @@ gallery/                 Original salon photography
 logo.png                 Salon logo
 src/
   data/                   Business, service, gallery, and review data
-  public/                 CSS, JavaScript, and favicon
+  public/                 CSS and JavaScript
   site.mjs                Shared layout and page templates
 scripts/
   build.mjs               Static production build

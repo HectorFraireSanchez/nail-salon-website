@@ -1,4 +1,4 @@
-import { mkdir, readFile, writeFile } from "node:fs/promises";
+import { mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { homePage, servicesPage, galleryPage, visitPage } from "../src/site.mjs";
@@ -8,6 +8,7 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const dist = path.join(root, "dist");
 
 await mkdir(path.join(dist, "assets", "gallery"), { recursive: true });
+await rm(path.join(dist, "favicon.svg"), { force: true });
 
 async function copyIfChanged(source, destination) {
   const sourceContent = await readFile(source);
@@ -31,7 +32,6 @@ await Promise.all([
   copyIfChanged(path.join(root, "logo.png"), path.join(dist, "assets", "logo.png")),
   copyIfChanged(path.join(root, "src", "public", "styles.css"), path.join(dist, "assets", "styles.css")),
   copyIfChanged(path.join(root, "src", "public", "app.js"), path.join(dist, "assets", "app.js")),
-  copyIfChanged(path.join(root, "src", "public", "favicon.svg"), path.join(dist, "favicon.svg")),
   ...galleryFiles.map((file) => copyIfChanged(path.join(gallerySource, file), path.join(dist, "assets", "gallery", file))),
 ]);
 

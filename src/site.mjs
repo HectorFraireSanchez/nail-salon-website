@@ -59,7 +59,7 @@ const pageMeta = {
   visit: {
     path: "/visit/",
     title: "Visit Utopian Nails Spa | Hours & Directions in Fort Worth",
-    description: "Find Utopian Nails Spa at 6201 Sunset Dr 650, Suite 104 in Fort Worth. View hours, get directions, or call or text to book your appointment.",
+    description: "Find Utopian Nails Spa at 6201 Sunset Dr, Suite 104 in Fort Worth. View hours, get directions, or call or text to book your appointment.",
   },
 };
 
@@ -109,7 +109,7 @@ function header(active) {
     <header class="site-header" data-header>
       <div class="header-inner shell">
         <a class="brand" href="/" aria-label="Utopian Nails Spa home">
-          <img src="/assets/logo.png" width="430" height="203" alt="Utopian Nails Spa" />
+          <img src="/assets/logo.png" width="1024" height="1024" alt="Utopian Nails Spa" />
         </a>
         <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="site-nav" data-menu-toggle>
           <span></span><span></span><span></span>
@@ -139,7 +139,7 @@ function footer() {
   return `<footer class="site-footer">
     <div class="shell footer-grid">
       <div class="footer-brand">
-        <img src="/assets/logo.png" width="430" height="203" alt="Utopian Nails Spa" loading="lazy" />
+        <img src="/assets/logo.png" width="1024" height="1024" alt="Utopian Nails Spa" loading="lazy" />
         <p>Thoughtful nail care, creative finishes, and a little room to unwind in Fort Worth.</p>
         <div class="social-links">
           <a href="${business.social.instagram}" ${externalAttrs} aria-label="Utopian Nails Spa on Instagram">${icon("instagram")}<span>Instagram</span></a>
@@ -198,11 +198,11 @@ function layout(page, body, options = {}) {
   <meta property="og:description" content="${meta.description}" />
   <meta property="og:url" content="${business.siteUrl}${meta.path}" />
   <meta property="og:image" content="${business.siteUrl}/assets/logo.png" />
-  <meta property="og:image:width" content="430" />
-  <meta property="og:image:height" content="203" />
+  <meta property="og:image:width" content="1024" />
+  <meta property="og:image:height" content="1024" />
   <meta property="og:image:alt" content="Utopian Nails Spa logo" />
   <meta name="twitter:card" content="summary_large_image" />
-  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="/assets/logo.png" type="image/png" />
   <link rel="stylesheet" href="/assets/styles.css" />
   <script type="application/ld+json">${structuredData(meta)}</script>
 </head>
