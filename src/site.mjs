@@ -12,6 +12,7 @@ const icon = (name) => {
     instagram: '<rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".7" fill="currentColor" stroke="none"/>',
     facebook: '<path d="M14 8h3V4h-3c-3 0-5 2-5 5v3H6v4h3v6h4v-6h3l1-4h-4V9c0-.6.4-1 1-1z"/>',
     mail: '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m4 7 8 6 8-6"/>',
+    calendar: '<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/>',
     plus: '<path d="M12 5v14M5 12h14"/>',
     close: '<path d="m6 6 12 12M18 6 6 18"/>',
   };
@@ -124,7 +125,7 @@ function header(active) {
           <div class="nav-links">
             ${nav.map(([key, href, label]) => `<a href="${href}"${active === key ? ' aria-current="page"' : ""}>${label}</a>`).join("")}
           </div>
-          <a class="button button-small button-light" href="${links.text}">${icon("message")} Text to book</a>
+          <a class="button button-small button-light" href="${links.booking}">${icon("calendar")} Book Appointment</a>
         </nav>
       </div>
     </header>`;
@@ -132,8 +133,9 @@ function header(active) {
 
 function mobileActions() {
   return `<aside class="mobile-actions" aria-label="Quick booking actions">
-    <a href="${links.text}">${icon("message")}<span>Text to book</span></a>
-    <a href="${links.call}">${icon("phone")}<span>Call to book</span></a>
+    <a class="mobile-action-primary" href="${links.booking}">${icon("calendar")}<span>Book Appointment</span></a>
+    <a class="mobile-action-secondary" href="${links.text}" aria-label="Text to book">${icon("message")}<span>Text</span></a>
+    <a class="mobile-action-secondary" href="${links.call}" aria-label="Call to book">${icon("phone")}<span>Call</span></a>
   </aside>`;
 }
 
@@ -158,6 +160,7 @@ function footer() {
           <a href="/services/">Services & prices</a>
           <a href="/gallery/">Our work</a>
           <a href="/visit/">Hours & location</a>
+          <a href="${links.booking}">Book appointment</a>
           <a href="${links.text}">Text to book</a>
         </nav>
       </div>
@@ -174,13 +177,14 @@ function footer() {
   </footer>`;
 }
 
-function ctaBanner({ eyebrow = "Your next set starts here", title = "Ready for a little time to yourself?", text = "Choose the booking option that works best for you. We’ll take it from there." } = {}) {
+function ctaBanner({ eyebrow = "Your next set starts here", title = "Ready for a little time to yourself?", text = "Book online for the quickest path to your next appointment, or contact the salon for help." } = {}) {
   return `<section class="cta-banner section" aria-labelledby="cta-title">
     <div class="shell cta-inner">
       <div><p class="eyebrow">${eyebrow}</p><h2 id="cta-title">${title}</h2><p>${text}</p></div>
       <div class="button-row">
-        <a class="button button-light" href="${links.text}">${icon("message")} Text to book</a>
-        <a class="button button-outline-light" href="${links.call}">${icon("phone")} Call to book</a>
+        <a class="button button-light cta-book" href="${links.booking}">${icon("calendar")} Book Appointment</a>
+        <a class="button button-outline-light" href="${links.text}">${icon("message")} Text to Book</a>
+        <a class="button button-tertiary-light" href="${links.call}">${icon("phone")} Call to Book</a>
       </div>
     </div>
   </section>`;
@@ -249,8 +253,9 @@ export function homePage() {
           <p class="hero-lede">From polished classics to bold nail art, enjoy thoughtful care in a relaxed, personal studio setting.</p>
           <div class="hero-status-row">${todayHoursStatus({ linkToHours: true })}${walkInsStatus()}</div>
           <div class="button-row hero-actions">
-            <a class="button button-primary" href="${links.text}">${icon("message")} Text to book</a>
-            <a class="button button-secondary" href="${links.call}">${icon("phone")} Call to book</a>
+            <a class="button button-primary hero-book" href="${links.booking}">${icon("calendar")} Book Appointment</a>
+            <a class="button button-small button-secondary" href="${links.text}">${icon("message")} Text to Book</a>
+            <a class="button button-small button-secondary" href="${links.call}">${icon("phone")} Call to Book</a>
           </div>
           <a class="hero-location" href="${links.directions}" ${externalAttrs}>${icon("map")}<span>Located in ${business.locationName}<br />Studio 104 · Fort Worth, TX</span></a>
         </div>
@@ -329,7 +334,7 @@ export function servicesPage() {
     <nav class="category-nav" aria-label="Service categories"><div class="shell category-nav-scroll">${serviceCategories.map((category) => `<a href="#${category.id}">${category.navLabel}</a>`).join("")}</div></nav>
     <div class="shell service-menu">${serviceCategories.map(serviceCategory).join("")}</div>
     <section class="section policy-section" id="policies" aria-labelledby="policy-title"><div class="shell policy-grid"><div><p class="eyebrow">Before your visit</p><h2 id="policy-title">Salon policies</h2><p>These guidelines help the team keep appointments comfortable, fair, and on time.</p></div><ol>${policies.map((policy) => `<li>${policy}</li>`).join("")}</ol></div></section>
-    ${ctaBanner({ eyebrow: "Found your service?", title: "Let’s get it on the calendar.", text: "Text or call the salon to ask about pricing, discuss a design, and reserve your time." })}`;
+    ${ctaBanner({ eyebrow: "Found your service?", title: "Let’s get it on the calendar.", text: "Book online, or text or call the salon to ask about pricing and discuss a design." })}`;
   return layout("services", body, { bodyClass: "services-page" });
 }
 
@@ -341,7 +346,7 @@ export function galleryPage() {
     <section class="page-hero gallery-page-hero"><div class="shell gallery-hero-inner"><div><p class="eyebrow">Our work</p><h1>Details worth a <em>closer look.</em></h1></div><div class="gallery-hero-copy"><p>From understated French tips to bright color and dimensional art, browse real sets from the ${business.name} gallery.</p>${instagramLink("See more of our work on Instagram", { light: true })}</div></div></section>
     <section class="gallery-section section" aria-label="Nail art gallery"><div class="shell gallery-grid">${gallery}</div></section>
     <dialog class="lightbox" data-lightbox aria-label="Enlarged gallery image"><button type="button" class="lightbox-close" data-lightbox-close aria-label="Close enlarged image">${icon("close")}</button><button type="button" class="lightbox-nav lightbox-prev" data-lightbox-prev aria-label="Previous image">‹</button><figure><img src="" alt="" data-lightbox-image /><figcaption data-lightbox-caption></figcaption></figure><button type="button" class="lightbox-nav lightbox-next" data-lightbox-next aria-label="Next image">›</button></dialog>
-    ${ctaBanner({ eyebrow: "Have a reference photo?", title: "Bring the idea. We’ll talk through the details.", text: "Text the salon to share a look, or call to reserve your appointment." })}`;
+    ${ctaBanner({ eyebrow: "Have a reference photo?", title: "Bring the idea. We’ll talk through the details.", text: "Book online, then text the salon if you’d like to share a look or discuss the details." })}`;
   return layout("gallery", body, { bodyClass: "gallery-page" });
 }
 
@@ -351,9 +356,9 @@ export function visitPage() {
     <section class="section contact-section" aria-label="Visit details"><div class="shell contact-grid">
       <div class="contact-card contact-card-location"><p class="eyebrow">Located in</p><h2 id="contact-title">${business.locationName}</h2><address>${business.address.street}<br />${business.address.city}, ${business.address.state} ${business.address.postalCode}</address><a class="text-link" href="${links.directions}" ${externalAttrs}>Open Utopian Nails in Google Maps ${icon("arrow")}</a></div>
       <div class="contact-card contact-card-hours"><p class="eyebrow">Weekly hours</p>${hoursList()}</div>
-      <div class="contact-card"><p class="eyebrow">Get in touch</p><div class="contact-links"><a href="${links.text}">${icon("message")}<span><small>Text to book</small>${business.phone.display}</span></a><a href="${links.call}">${icon("phone")}<span><small>Call the salon</small>${business.phone.display}</span></a><a href="${links.email}">${icon("mail")}<span><small>Email</small>${business.email}</span></a></div></div>
+      <div class="contact-card"><p class="eyebrow">Get in touch</p><div class="contact-links"><a href="${links.booking}">${icon("calendar")}<span><small>Preferred booking method</small>Book appointment online</span></a><a href="${links.text}">${icon("message")}<span><small>Text to book</small>${business.phone.display}</span></a><a href="${links.call}">${icon("phone")}<span><small>Call the salon</small>${business.phone.display}</span></a><a href="${links.email}">${icon("mail")}<span><small>Email</small>${business.email}</span></a></div></div>
     </div></section>
-    <section class="section booking-choice" aria-labelledby="booking-choice-title"><div class="shell"><div class="section-heading centered-heading"><p class="eyebrow">Book your way</p><h2 id="booking-choice-title">Two easy ways to reserve.</h2></div><div class="booking-choice-grid"><a href="${links.text}">${icon("message")}<span><strong>Text to book</strong><small>Start a conversation with the salon</small></span>${icon("arrow")}</a><a href="${links.call}">${icon("phone")}<span><strong>Call to book</strong><small>Speak directly with the salon</small></span>${icon("arrow")}</a></div></div></section>
+    <section class="section booking-choice" aria-labelledby="booking-choice-title"><div class="shell"><div class="section-heading centered-heading"><p class="eyebrow">Book your way</p><h2 id="booking-choice-title">Reserve your appointment online.</h2><p>Online booking is the quickest option, with text and phone support whenever you need it.</p></div><div class="booking-choice-grid"><a class="booking-choice-primary" href="${links.booking}">${icon("calendar")}<span><strong>Book Appointment</strong><small>Choose your service and time online</small></span>${icon("arrow")}</a><a href="${links.text}">${icon("message")}<span><strong>Text to book</strong><small>Start a conversation with the salon</small></span>${icon("arrow")}</a><a href="${links.call}">${icon("phone")}<span><strong>Call to book</strong><small>Speak directly with the salon</small></span>${icon("arrow")}</a></div></div></section>
     <section class="section social-section"><div class="shell social-card"><div><p class="eyebrow">Stay inspired</p><h2>Follow along for more nail ideas.</h2></div><div class="button-row"><a class="button button-secondary" href="${business.social.instagram}" ${externalAttrs}>${icon("instagram")} Instagram</a><a class="button button-secondary" href="${business.social.facebook}" ${externalAttrs}>${icon("facebook")} Facebook</a></div></div></section>`;
   return layout("visit", body, { bodyClass: "visit-page" });
 }

@@ -1,6 +1,6 @@
 # Utopian Nails Website
 
-A mobile-first redesign and rebuild for [Utopian Nails](https://utopiannailsstudio.com/), a small nail studio located in Phenix Salon Suites of Camp Bowie, Studio 104, in Fort Worth, Texas. The site is designed to help prospective guests quickly see the studio’s work, understand services and prices, and take the next step by text, phone, or directions.
+A mobile-first redesign and rebuild for [Utopian Nails](https://utopiannailsstudio.com/), a small nail studio located in Phenix Salon Suites of Camp Bowie, Studio 104, in Fort Worth, Texas. The site is designed to help prospective guests quickly see the studio’s work, understand services and prices, and take the next step by booking online, texting, calling, or getting directions.
 
 ## Goals
 
@@ -22,7 +22,7 @@ The project uses semantic HTML, modern CSS, and a small amount of vanilla JavaSc
 
 Core business information, services, prices, gallery metadata, and testimonials live in structured data modules under `src/data`. Shared templates generate consistent navigation, footer, booking actions, metadata, and structured data.
 
-There is no application backend. Guests reserve appointments by texting or calling the salon.
+There is no application backend. Guests primarily reserve appointments through Square, with texting and calling available as secondary options.
 
 ## Performance, accessibility, and SEO
 

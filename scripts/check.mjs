@@ -21,7 +21,7 @@ function assert(condition, message) {
   if (!condition) failures.push(message);
 }
 
-const expectedUrls = [business.social.facebook, business.social.instagram, links.text, links.call, links.directions];
+const expectedUrls = [business.social.facebook, business.social.instagram, links.booking, links.text, links.call, links.directions];
 const directionsDestination = new URL(links.directions).searchParams.get("destination");
 assert(directionsDestination === business.address.directionsDestination, "Google Maps directions use the wrong destination");
 assert(directionsDestination.startsWith(`${business.name}, `) && directionsDestination.includes(business.address.formatted), "Google Maps directions do not identify Utopian Nails at the full studio address");
@@ -29,7 +29,8 @@ for (const expected of expectedUrls) {
   assert(pages.some(({ html }) => html.includes(expected.replaceAll("&", "&amp;"))) || pages.some(({ html }) => html.includes(expected)), `Missing expected URL: ${expected}`);
 }
 
-assert(!pages.some(({ html }) => /manage2\.mangoforsalon\.com|book online/i.test(html)), "Inactive online booking option is still present");
+assert(pages.every(({ html }) => html.includes(`href="${links.booking}"`)), "Square online booking is not available on every page");
+assert(pages.every(({ html }) => !html.includes(`href="${links.booking}" target=`)), "Square booking links should open in the same tab");
 
 for (const { file, html } of pages) {
   assert(html.includes(business.address.street), `${file}: current street address is missing`);

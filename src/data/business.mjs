@@ -35,6 +35,7 @@ export const business = {
 };
 
 export const links = {
+  booking: "https://app.squareup.com/appointments/book/v6oi03rl6v98ky/LASGHRSKE2Y0Q/start",
   text: `sms:${business.phone.uri}?body=${encodeURIComponent("Hi! I'd like to book a nail appointment.")}`,
   call: `tel:${business.phone.uri}`,
   email: `mailto:${business.email}`,
