@@ -1,92 +1,58 @@
-# Utopian Nails Website
+# Utopian Nails
 
-A mobile-first redesign and rebuild for [Utopian Nails](https://utopiannailsstudio.com/), a small nail studio located in Phenix Salon Suites of Camp Bowie, Studio 104, in Fort Worth, Texas. The site is designed to help prospective guests quickly see the studio’s work, understand services and prices, and take the next step by booking online, texting, calling, or getting directions.
+Live production website for Utopian Nails, an operating nail studio in Fort Worth, Texas, used by the business and its customers.
 
-## Goals
+**[Live site: utopiannailsstudio.com](https://utopiannailsstudio.com/)**
 
-- Put booking actions within easy reach, especially on mobile
-- Make the full service menu and pricing easy to scan
-- Use the salon’s own photography as the main trust and conversion asset
-- Keep current business information consistent throughout the site
-- Provide crawlable, locally relevant content without keyword stuffing
-- Keep the implementation fast, reliable, and easy to maintain
+## Overview
 
-## Technology and architecture
+This project replaces an outdated web presence with a mobile-first website that reflects the business's move to a smaller studio inside Phenix Salon Suites of Camp Bowie. The previous site contained stale contact/location details and a long service menu that needed clearer organization.
 
-The project uses semantic HTML, modern CSS, and a small amount of vanilla JavaScript. A dependency-free Node build script renders four static pages:
+Four pages connect browsing to practical next steps: **Home**, **Services & Prices**, **Gallery**, and **Visit**. Customers can compare prices, browse work, find directions, and book through Square Appointments or contact the studio.
 
-- Home
-- Services and pricing
-- Gallery
-- Visit, hours, and contact
+## My role
 
-Core business information, services, prices, gallery metadata, and testimonials live in structured data modules under `src/data`. Shared templates generate consistent navigation, footer, booking actions, metadata, and structured data.
+I owned the project from business requirements through production deployment and subsequent iteration. My responsibilities included information architecture, design direction, mobile UX, development direction, implementation review, testing, debugging, and domain/SEO decisions.
 
-There is no application backend. Guests primarily reserve appointments through Square, with texting and calling available as secondary options.
+I supplied business information and assets, defined booking priorities, reviewed desktop/mobile behavior, and requested targeted revisions. Business feedback shaped the wording so visitors would expect a personal studio inside a larger salon-suites building.
 
-## Performance, accessibility, and SEO
+## Key product and engineering decisions
 
-- Static, crawlable pages with no client-side rendering dependency
-- Lightweight local WebP gallery images with explicit dimensions
-- Lazy loading for below-the-fold imagery
-- Minimal JavaScript and no third-party UI dependencies
-- Responsive layouts and persistent mobile booking actions
-- Semantic landmarks, skip link, visible focus styles, keyboard-accessible navigation, and an accessible native-dialog lightbox
-- Reduced-motion support
-- Unique titles and descriptions, canonical URLs, Open Graph metadata, sitemap, robots file, and `NailSalon` structured data
-- Consistent current Fort Worth name, address, phone, hours, and social details
+- **Put the selected task near the top.** Shortened mobile page introductions so pricing, photos, or visit details appear earlier. Made service-category links visibly interactive and horizontally scrollable. Kept photography in the two gallery areas to reduce decorative scrolling elsewhere.
+- **Match booking to actual operations.** Removed an inactive booking link and prioritized text/call initially. When the business adopted Square, made online booking primary while retaining text and phone support. A compact mobile bar keeps these actions available with space for device safe areas.
+- **Keep the architecture proportional.** I specified a preference for static, crawlable pages and external booking, with no custom scheduling backend. Codex selected the implementation within those constraints. Instagram and Google Maps use direct links; the gallery uses a native dialog lightbox without an additional library.
+- **Share business data across pages.** Shared modules drive contact details, weekly hours, directions, and structured metadata. Today's hours use the studio's time zone. Content updates remain manual: the business reference file, homepage featured prices, and full service menu must be kept in sync.
 
-## Run locally
+## Technical overview
 
-Requirements: Node.js 18 or newer.
+- **Frontend:** semantic HTML, responsive CSS, vanilla JavaScript ES modules, and local WebP images. Includes keyboard controls, visible focus styles, reduced-motion support, and lazy loading.
+- **Build:** dependency-free Node.js scripts render shared templates in [src/site.mjs](src/site.mjs) with structured content from [src/data/](src/data/).
+- **Hosting and version control:** Cloudflare Workers static assets, configured in [wrangler.jsonc](wrangler.jsonc), with Git and GitHub for source history.
 
-```bash
-npm run dev
-```
+## Production and validation
 
-The terminal prints both the computer URL and one or more phone-ready network URLs.
+`npm run build` writes deployable static files to `dist/`, the asset directory configured for Cloudflare. Custom-domain and redirect settings are managed outside this repository.
 
-## Test from a phone on the same network
+Every page has a self-referencing HTTPS canonical, unique title/description, Open Graph metadata, and `NailSalon` JSON-LD. The homepage adds `WebSite` markup; the build generates `robots.txt` and a sitemap containing the four production URLs.
 
-1. Connect the computer and phone to the same Wi-Fi network. Avoid a guest Wi-Fi network, which may block communication between devices.
-2. Run `npm run dev` from the project directory.
-3. Keep the terminal open and look for an address labeled `Phone`, such as `http://192.168.1.25:4173`.
-4. Open that exact address in Safari or Chrome on the phone. Use `http://`, not `https://`.
-5. If Windows asks whether Node.js may communicate through the firewall, allow access on **Private networks**.
+`npm run check` runs static regression checks on generated HTML and local assets. Checks evolved alongside business requirements to reject obsolete contact details, require expected booking links, enforce production canonicals, and verify business identity across structured metadata. They also check service names and price strings, heading order, image attributes, and sitemap contents.
 
-The computer must remain awake and the development server must remain running while the phone is connected. If the phone cannot load the site, confirm both devices are on the same non-guest Wi-Fi, temporarily disconnect a VPN, and ensure Node.js is allowed through Windows Defender Firewall on private networks.
+Browser interactions and live HTTP responses were checked separately during development. The static checks do not exercise Square booking or guarantee correct service-to-price associations and complete upgrade notes; those require content review.
 
-If port `4173` is already occupied, the development server automatically tries the next available port and prints the correct URL. Always use the exact `Phone` URL shown in the latest terminal output.
+## Agent-assisted development
 
-To use a different port in PowerShell:
+I used OpenAI Codex to accelerate implementation, debugging, and validation. I defined requirements and architectural constraints, broke revisions into focused tasks, and reviewed and corrected results. Codex produced the initial code and subsequent changes within those constraints; I retained responsibility for scope, product decisions, review, and deployment.
 
-```powershell
-$env:PORT=4174; npm run dev
-```
+For example, I requested same-network phone testing and reported an occupied-port startup failure. Codex diagnosed the conflict and updated the preview server to discover local network addresses, print phone URLs, and try another port when the default is occupied.
 
-## Production build
+## Running locally
+
+Requires Node.js 18+ and npm. There are no package dependencies to install.
 
 ```bash
 npm run build
-npm run preview
+npm run check
+npm run dev
 ```
 
-The production-ready static output is written to `dist/` and can be hosted by any static hosting provider.
-
-## Project structure
-
-```text
-gallery/                 Original salon photography
-logo.png                 Salon logo
-src/
-  data/                   Business, service, gallery, and review data
-  public/                 CSS and JavaScript
-  site.mjs                Shared layout and page templates
-scripts/
-  build.mjs               Static production build
-  dev.mjs                 Local preview server
-dist/                     Generated production output
-business-info.txt         Authoritative current business details
-```
-
-To update contact information or hours, edit `src/data/business.mjs`. To change services or prices, edit `src/data/services.mjs`. Gallery ordering and alt text are managed in `src/data/gallery.mjs`.
+Open the printed local URL, or the `Phone` URL from a device on the same network. Re-run `npm run build` after source changes and refresh; the server does not watch files.
