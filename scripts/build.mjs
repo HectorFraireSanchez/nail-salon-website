@@ -30,6 +30,8 @@ const gallerySource = path.join(root, "gallery");
 const galleryFiles = galleryImages.map((image) => image.file);
 
 await Promise.all([
+  ...["favicon.ico", "favicon-48x48.png", "favicon-192x192.png", "favicon-512x512.png"].map((file) =>
+    copyIfChanged(path.join(root, "src", "public", file), path.join(dist, file))),
   copyIfChanged(path.join(root, "logo.png"), path.join(dist, "assets", "logo.png")),
   copyIfChanged(path.join(root, "src", "public", "styles.css"), path.join(dist, "assets", "styles.css")),
   copyIfChanged(path.join(root, "src", "public", "app.js"), path.join(dist, "assets", "app.js")),

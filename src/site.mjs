@@ -44,13 +44,13 @@ function instagramLink(label, { light = false } = {}) {
 const pageMeta = {
   home: {
     path: "/",
-    title: `${business.name} | Nail Studio in Fort Worth, TX`,
-    description: `${business.name} is a small, welcoming nail studio located in ${business.locationName}, Studio 104. Explore manicures, pedicures, nail art, and more.`,
+    title: `${business.name} | Nail Salon in Fort Worth, TX`,
+    description: `${business.name} is a personal nail studio in West Fort Worth offering manicures, pedicures, builder gel, dip powder, acrylics and custom nail art. Book online, call or text.`,
   },
   services: {
     path: "/services/",
     title: `Nail Services & Prices | ${business.name} Fort Worth`,
-    description: `View current prices for pedicures, manicures, builder gel, dip powder, acrylic nails, nail art, waxing, and kids services at ${business.name}.`,
+    description: `View prices for manicures, pedicures, builder gel, dip powder, acrylics, nail art, waxing and kids services at ${business.name} in Fort Worth.`,
   },
   gallery: {
     path: "/gallery/",
@@ -59,19 +59,18 @@ const pageMeta = {
   },
   visit: {
     path: "/visit/",
-    title: `Visit ${business.name} | Hours & Directions in Fort Worth`,
-    description: `Find ${business.name}, a small nail studio located in ${business.locationName}, Studio 104. View hours and get directions in Fort Worth.`,
+    title: `Visit ${business.name} | Fort Worth Nail Salon`,
+    description: `Visit ${business.name} in Studio 104 inside ${business.locationName} in Fort Worth, TX. Find our address, hours, directions and booking options.`,
   },
 };
 
 function structuredData(meta) {
   const openingHoursSpecification = business.hours
-    .filter((entry) => !entry.closed)
     .map((entry) => ({
       "@type": "OpeningHoursSpecification",
       dayOfWeek: `https://schema.org/${entry.day}`,
-      opens: entry.opens,
-      closes: entry.closes,
+      opens: entry.closed ? "00:00" : entry.opens,
+      closes: entry.closed ? "00:00" : entry.closes,
     }));
 
   return JSON.stringify({
@@ -85,10 +84,10 @@ function structuredData(meta) {
     logo: `${business.siteUrl}/assets/logo.png`,
     email: business.email,
     telephone: business.phone.uri,
-    description: `${business.name} is a small nail studio located in ${business.locationName}, Studio 104.`,
+    description: `${business.name} is a personal nail studio in Fort Worth, Texas, located in ${business.locationName}, Studio 104.`,
     hasMap: links.directions,
     containedInPlace: {
-      "@type": "LocalBusiness",
+      "@type": "Place",
       name: business.locationName,
     },
     address: {
@@ -212,9 +211,21 @@ function layout(page, body, options = {}) {
   <meta property="og:image:height" content="1024" />
   <meta property="og:image:alt" content="${business.name} logo" />
   <meta name="twitter:card" content="summary_large_image" />
-  <link rel="icon" href="/assets/logo.png" type="image/png" />
+  <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="16x16 32x32 48x48" />
+  <link rel="icon" href="/favicon-48x48.png" type="image/png" sizes="48x48" />
+  <link rel="icon" href="/favicon-192x192.png" type="image/png" sizes="192x192" />
+  <link rel="icon" href="/favicon-512x512.png" type="image/png" sizes="512x512" />
+  <link rel="apple-touch-icon" href="/favicon-192x192.png" sizes="192x192" />
   <link rel="stylesheet" href="/assets/styles.css" />
   <script type="application/ld+json">${structuredData(meta)}</script>
+  ${page === "home" ? `<script type="application/ld+json">${JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": `${business.siteUrl}/#website`,
+    name: business.name,
+    url: `${business.siteUrl}/`,
+    publisher: { "@id": `${business.siteUrl}/#salon` },
+  }).replace(/</g, "\\u003c")}</script>` : ""}
 </head>
 <body${bodyClass}>
   ${header(page)}
@@ -241,7 +252,7 @@ function reviewCards() {
 
 export function homePage() {
   const galleryMarkup = homeGallery.map((image, index) => `<a class="home-gallery-item home-gallery-item-${index + 1}" href="/gallery/" aria-label="View the full nail gallery">
-    <img src="/assets/gallery/${image.file}" width="${image.width}" height="${image.height}" alt="${image.alt}" ${index < 2 ? 'loading="eager" fetchpriority="high"' : 'loading="lazy"'} />
+    <img src="/assets/gallery/${image.file}" width="${image.width}" height="${image.height}" alt="${image.alt}" loading="lazy" decoding="async" />
   </a>`).join("");
 
   const body = `
@@ -304,9 +315,9 @@ export function homePage() {
   return layout("home", body);
 }
 
-function serviceItem(service) {
+function serviceItem(service, headingTag) {
   return `<article class="service-item">
-    <div class="service-name-row"><h4>${service.name}</h4><p class="price">${service.price}</p></div>
+    <div class="service-name-row"><${headingTag}>${service.name}</${headingTag}><p class="price">${service.price}</p></div>
     ${service.description ? `<p class="service-description">${service.description}</p>` : ""}
     ${service.notes?.length ? `<ul class="service-notes" aria-label="Upgrades">${service.notes.map((note) => `<li>${note}</li>`).join("")}</ul>` : ""}
   </article>`;
@@ -319,7 +330,7 @@ function serviceCategory(category) {
       <div><p class="eyebrow">${category.eyebrow}</p><h2 id="${category.id}-title">${category.title}</h2><p>${category.intro}</p></div>
     </div>
     <div class="service-groups">
-      ${groups.map((group) => `<div class="service-group">${group.title ? `<div class="service-group-heading"><h3>${group.title}</h3>${group.description ? `<p>${group.description}</p>` : ""}</div>` : ""}<div class="service-list">${group.services.map(serviceItem).join("")}</div></div>`).join("")}
+      ${groups.map((group) => `<div class="service-group">${group.title ? `<div class="service-group-heading"><h3>${group.title}</h3>${group.description ? `<p>${group.description}</p>` : ""}</div>` : ""}<div class="service-list">${group.services.map((service) => serviceItem(service, group.title ? "h4" : "h3")).join("")}</div></div>`).join("")}
     </div>
   </section>`;
 }

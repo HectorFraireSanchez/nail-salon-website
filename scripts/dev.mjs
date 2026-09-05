@@ -11,7 +11,7 @@ if (!existsSync(root)) {
   await new Promise((done, reject) => build.on("exit", (code) => code === 0 ? done() : reject(new Error("Build failed"))));
 }
 
-const types = { ".html": "text/html; charset=utf-8", ".css": "text/css; charset=utf-8", ".js": "text/javascript; charset=utf-8", ".svg": "image/svg+xml", ".png": "image/png", ".webp": "image/webp", ".woff2": "font/woff2", ".xml": "application/xml", ".txt": "text/plain" };
+const types = { ".html": "text/html; charset=utf-8", ".css": "text/css; charset=utf-8", ".js": "text/javascript; charset=utf-8", ".svg": "image/svg+xml", ".png": "image/png", ".ico": "image/x-icon", ".webp": "image/webp", ".woff2": "font/woff2", ".xml": "application/xml", ".txt": "text/plain" };
 const server = createServer((request, response) => {
   const cleanPath = decodeURIComponent((request.url || "/").split("?")[0]);
   let filePath = join(root, cleanPath);

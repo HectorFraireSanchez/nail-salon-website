@@ -22,6 +22,9 @@ function assert(condition, message) {
 }
 
 const expectedUrls = [business.social.facebook, business.social.instagram, links.booking, links.text, links.call, links.directions];
+assert(business.siteUrl === "https://utopiannailsstudio.com", "The canonical host must be the production root domain");
+const titles = new Set();
+const descriptions = new Set();
 const directionsDestination = new URL(links.directions).searchParams.get("destination");
 assert(directionsDestination === business.address.directionsDestination, "Google Maps directions use the wrong destination");
 assert(directionsDestination.startsWith(`${business.name}, `) && directionsDestination.includes(business.address.formatted), "Google Maps directions do not identify Utopian Nails at the full studio address");
@@ -43,7 +46,19 @@ for (const { file, html } of pages) {
   assert((html.match(/<h1\b/g) || []).length === 1, `${file}: expected exactly one h1`);
   assert(/<title>[^<]+<\/title>/.test(html), `${file}: title is missing`);
   assert(/<meta name="description" content="[^"]+"/.test(html), `${file}: meta description is missing`);
+  const title = html.match(/<title>([^<]+)<\/title>/)?.[1];
+  const description = html.match(/<meta name="description" content="([^"]+)"/)?.[1];
+  assert(!titles.has(title), `${file}: duplicate page title`);
+  assert(!descriptions.has(description), `${file}: duplicate meta description`);
+  titles.add(title);
+  descriptions.add(description);
+  const metaTags = html.match(/<meta\b[^>]*>/gi) ?? [];
+  assert(!metaTags.some((tag) => /name="(?:robots|googlebot|googlebot-image)"/i.test(tag) && /content="[^"]*\b(?:noindex|none)\b/i.test(tag)), `${file}: page blocks indexing`);
+  assert((html.match(/<link\b[^>]*rel="canonical"/g) ?? []).length === 1, `${file}: expected one canonical declaration`);
   assert(html.includes(`<link rel="canonical" href="${business.siteUrl}${pagePaths.get(file)}"`), `${file}: canonical URL is missing`);
+  for (const [property, value] of Object.entries({ "og:title": title, "og:description": description, "og:url": `${business.siteUrl}${pagePaths.get(file)}`, "og:site_name": business.name, "og:image": `${business.siteUrl}/assets/logo.png` })) {
+    assert(html.includes(`<meta property="${property}" content="${value}"`), `${file}: incorrect ${property}`);
+  }
   assert(html.includes(business.name), `${file}: current business name is missing`);
   assert(html.includes(business.email), `${file}: current business email is missing`);
   assert(!html.includes("Utopian Nails Spa"), `${file}: stale business name found`);
@@ -51,16 +66,49 @@ for (const { file, html } of pages) {
   assert(!html.includes("Utopiannailsxspa@gmail.com"), `${file}: stale business email found`);
   const mapLinks = [...html.matchAll(/href="(https:\/\/www\.google\.com\/maps\/dir\/\?[^\"]+)"/g)].map((match) => match[1].replaceAll("&amp;", "&"));
   assert(mapLinks.length > 0 && mapLinks.every((href) => href === links.directions), `${file}: contains an incorrect Google Maps directions link`);
-  assert(html.includes('<link rel="icon" href="/assets/logo.png" type="image/png"'), `${file}: replacement logo is not used as the favicon`);
+  const faviconTags = [...html.matchAll(/<link\b[^>]*rel="(?:icon|shortcut icon|apple-touch-icon)"[^>]*>/g)].map(([tag]) => tag);
+  const expectedFavicons = [
+    ["icon", "/favicon.ico", "16x16 32x32 48x48"],
+    ["icon", "/favicon-48x48.png", "48x48"],
+    ["icon", "/favicon-192x192.png", "192x192"],
+    ["icon", "/favicon-512x512.png", "512x512"],
+    ["apple-touch-icon", "/favicon-192x192.png", "192x192"],
+  ];
+  assert(faviconTags.length === expectedFavicons.length, `${file}: duplicate or unexpected favicon declarations`);
+  for (const [rel, href, sizes] of expectedFavicons) {
+    assert(faviconTags.filter((tag) => tag.includes(`rel="${rel}"`) && tag.includes(`href="${href}"`) && tag.includes(`sizes="${sizes}"`)).length === 1, `${file}: missing or duplicate ${rel} ${href}`);
+    try { await access(path.join(dist, href)); } catch { failures.push(`${file}: missing favicon ${href}`); }
+  }
   assert(html.includes('<img src="/assets/logo.png" width="1024" height="1024"'), `${file}: replacement logo dimensions are missing`);
 
-  const jsonLd = html.match(/<script type="application\/ld\+json">([^<]+)<\/script>/)?.[1];
   try {
-    const parsed = JSON.parse(jsonLd);
+    const entities = [...html.matchAll(/<script type="application\/ld\+json">([^<]+)<\/script>/g)].map(([, json]) => JSON.parse(json));
+    const salons = entities.filter((entity) => entity["@type"] === "NailSalon");
+    assert(salons.length === 1, `${file}: expected one NailSalon entity`);
+    const parsed = salons[0];
     assert(parsed["@type"] === "NailSalon", `${file}: schema type is not NailSalon`);
+    assert(parsed["@context"] === "https://schema.org" && parsed["@id"] === `${business.siteUrl}/#salon`, `${file}: incorrect business entity identity`);
+    assert(parsed.name === business.name && parsed.url === business.siteUrl, `${file}: incorrect schema name or official URL`);
+    assert(parsed.email === business.email, `${file}: incorrect schema email`);
+    assert(parsed.logo === `${business.siteUrl}/assets/logo.png` && parsed.image === parsed.logo, `${file}: incorrect business logo/image`);
+    assert(parsed.description.includes("Fort Worth"), `${file}: schema description does not identify Fort Worth`);
     assert(parsed.telephone === business.phone.uri, `${file}: schema phone is incorrect`);
+    assert(parsed.address?.["@type"] === "PostalAddress", `${file}: missing PostalAddress`);
     assert(parsed.address?.streetAddress === business.address.street, `${file}: schema street address is incorrect`);
+    assert(parsed.address?.addressLocality === business.address.city && parsed.address?.addressRegion === business.address.state && parsed.address?.postalCode === business.address.postalCode && parsed.address?.addressCountry === business.address.country, `${file}: incorrect schema locality`);
     assert(parsed.containedInPlace?.name === business.locationName, `${file}: schema Phenix Salon Suites location is missing`);
+    assert(parsed.containedInPlace?.["@type"] === "Place", `${file}: containing building should not create another business entity`);
+    assert(JSON.stringify(parsed.sameAs) === JSON.stringify([business.social.facebook, business.social.instagram]), `${file}: incorrect official social profiles`);
+    assert(parsed.openingHoursSpecification?.length === business.hours.length, `${file}: incomplete weekly hours`);
+    for (const day of business.hours) {
+      const hours = parsed.openingHoursSpecification?.filter((entry) => entry.dayOfWeek === `https://schema.org/${day.day}`) ?? [];
+      assert(hours.length === 1 && hours[0]["@type"] === "OpeningHoursSpecification" && hours[0].opens === (day.closed ? "00:00" : day.opens) && hours[0].closes === (day.closed ? "00:00" : day.closes), `${file}: incorrect ${day.day} hours`);
+    }
+    const websites = entities.filter((entity) => entity["@type"] === "WebSite");
+    assert(websites.length === (file === "index.html" ? 1 : 0), `${file}: incorrect WebSite entity count`);
+    if (file === "index.html") {
+      assert(websites[0]?.name === business.name && websites[0]?.url === `${business.siteUrl}/` && websites[0]?.publisher?.["@id"] === parsed["@id"], "Homepage site name is not connected to the official salon");
+    }
   } catch {
     failures.push(`${file}: structured data is invalid JSON`);
   }
@@ -69,6 +117,14 @@ for (const { file, html } of pages) {
   for (const assetUrl of assetUrls) {
     const assetPath = path.join(dist, ...assetUrl.split("/").filter(Boolean));
     try { await access(assetPath); } catch { failures.push(`${file}: missing local asset ${assetUrl}`); }
+  }
+
+  const headingLevels = [...html.matchAll(/<h([1-6])\b/g)].map(([, level]) => Number(level));
+  assert(headingLevels.every((level, index) => index === 0 || level <= headingLevels[index - 1] + 1), `${file}: heading hierarchy skips a level`);
+  for (const [tag] of html.matchAll(/<img\b[^>]*>/g)) {
+    if (tag.includes("data-lightbox-image")) continue; // Hidden until a gallery photo is selected.
+    assert(/\balt="[^"]+"/.test(tag), `${file}: image is missing useful alt text`);
+    assert(/\bwidth="\d+"/.test(tag) && /\bheight="\d+"/.test(tag), `${file}: image is missing intrinsic dimensions`);
   }
 }
 
@@ -115,7 +171,11 @@ for (const requiredFile of ["robots.txt", "sitemap.xml"]) {
 const robots = await readFile(path.join(dist, "robots.txt"), "utf8");
 const sitemap = await readFile(path.join(dist, "sitemap.xml"), "utf8");
 assert(robots.includes(`${business.siteUrl}/sitemap.xml`), "robots.txt contains the wrong sitemap URL");
-assert(sitemap.includes(`${business.siteUrl}/`) && !sitemap.includes("https://utopiannails.com/"), "sitemap.xml contains a stale website URL");
+assert(/^User-agent: \*\s+Allow: \/\s/m.test(robots) && !/^Disallow:\s*\S/m.test(robots), "robots.txt blocks public pages or assets");
+const sitemapUrls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map(([, url]) => url);
+const canonicalUrls = [...pagePaths.values()].map((pagePath) => `${business.siteUrl}${pagePath}`);
+assert(sitemap.includes('xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"'), "Missing sitemap namespace");
+assert(sitemapUrls.length === canonicalUrls.length && new Set(sitemapUrls).size === canonicalUrls.length && sitemapUrls.every((url) => canonicalUrls.includes(url)), "Sitemap must contain exactly the four production canonical URLs");
 
 if (failures.length) {
   console.error(`Validation failed (${failures.length}):`);
